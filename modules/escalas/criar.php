@@ -59,41 +59,224 @@ if (isset($_SESSION['error'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <style>
-        .datepicker {
-            border: 2px solid black;
-            border-radius: 5px;
-            background: none;
-            width: 120px;
+        :root {
+            --primary-dark: #000706;
+            --secondary-dark: #00272D;
+            --primary-teal: #134647;
+            --secondary-teal: #0C7E7E;
+            --accent: #BFAC8B;
+        }
+
+        body {
+            background-color: var(--primary-dark);
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            padding: 2rem;
+        }
+
+        .datepicker-dropdown {
+            background-color: black !important;
+        }
+
+        .datepicker-switch:hover{
+            background-color: white !important;
+            color: black !important;
+        }
+
+        .prev:hover{
+            background-color: white !important;
+            color: black !important;
+        }
+
+        .next:hover{
+            background-color: white !important;
+            color: black !important;
+        }
+        
+        .day:hover{
+            background-color: white !important;
+            color: black !important;
+        }
+
+        .card {
+            background-color: var(--secondary-dark);
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        option{
+            background-color: black !important;
+            color: white !important;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-teal);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-teal);
+            transform: translateY(-1px);
+        }
+
+        .form-select, .form-control, .datepicker {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-select:focus, .form-control:focus, .datepicker:focus {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--secondary-teal);
+            box-shadow: none;
+            color: #fff;
+        }
+
+        .modal-content {
+            background-color: var(--secondary-dark);
+            border: none;
+            border-radius: 12px;
+        }
+
+        .modal-header, .modal-footer {
+            border: none;
+            padding: 1.5rem;
+        }
+
+        .list-group-item {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .list-group-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .alert {
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border: none;
+        }
+
+        .alert-success {
+            background-color: rgba(12, 126, 126, 0.2);
+            color: #fff;
+        }
+
+        .alert-info {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .tons-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
             text-align: center;
         }
-        .table-condensed{
-            background-color: white !important;
-            border: 1px solid black !important;
+
+        h5, h6 {
+            color: #fff;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
         }
-        .card{
-            width: 500px;
-            margin-bottom: 300px;
+
+        .form-check-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
         }
-        .row{
-            margin-left: 0px !important;
-            margin-right: 0px !important;
+
+        .form-check-input:checked {
+            background-color: var(--secondary-teal);
+            border-color: var(--secondary-teal);
         }
-        .card-body-tons{
-            padding: 10px;
+
+        .btn-close {
+            filter: invert(1) brightness(200%);
         }
-        .tons-card {
-            border: 1px solid rgba(0,0,0,.125);
-            border-radius: 0.25rem;
-            padding: 15px;
-            margin-top: 10px;
+
+        /* Espaçamento e organização */
+        .section-divider {
+            margin: 2rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .selection-preview {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }       
     </style>
 </head>
 <body>
     <?php include '../../includes/header.php'; ?>
     
-    <div class="container mt-4">
-        <!-- Exibição de alertas -->
+    <div class="container">
+        <h1>Criar Escala</h1>
+        
+        <!-- Alertas -->
         <?php foreach ($alertMessages as $type => $message): ?>
             <div class="alert alert-<?php echo $type === 'error' ? 'danger' : $type; ?> alert-dismissible fade show">
                 <?php echo htmlspecialchars($message); ?>
@@ -101,143 +284,142 @@ if (isset($_SESSION['error'])) {
             </div>
         <?php endforeach; ?>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="mx-auto" style="width: 500px;">
-                    <h1>Criar Escala</h1>
-                    <div class="card">
-                        <div class="card-body">
-                            <form id="escalaForm" action="../../api/escalas.php" method="POST" onsubmit="return validateForm()">
-                                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-                                <input type="hidden" name="criarEscala" value="1">
-                                
-                                <div class="form-group">
-                                    <h5 class="card-title">
-                                        Escala dia <input type="text" class="datepicker" id="dataEscala" name="dataEscala" 
-                                               value="<?php echo date('d/m/Y'); ?>" required>
-                                    </h5>
-                                </div>
-
-                                <select class="form-select mb-3" name="evento_id" required>
-                                    <option value="">Selecione o tipo do evento</option>
-                                    <?php while($row = $eventos->fetch(PDO::FETCH_ASSOC)): ?>
-                                        <option value="<?php echo htmlspecialchars($row['id']); ?>">
-                                            <?php echo htmlspecialchars($row['titulo']); ?>
-                                        </option>
-                                    <?php endwhile; ?>
-                                </select>
-
-                                <button type="button" class="btn btn-primary" onclick="abrirModalMusicos()">
-                                    Selecionar Músicos
-                                </button>
-                                <div id="musicosSelecionados" class="mb-3">
-                                    <div class="alert alert-info" role="alert">
-                                        Nenhum músico selecionado
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#musicasModal">
-                                    Selecionar Músicas
-                                </button>
-                                <div id="musicasSelecionadas" class="mt-3"></div>
-                                <div id="tonsMusicasSelecionadas" class="mb-3">
-                                    <!-- Os tons serão inseridos aqui dinamicamente -->
-                                </div>
-                                
-                                <!-- Adiciona inputs ocultos para armazenar valores selecionados -->
-                                <div id="hiddenInputs"></div>
-                                
-                                <button type="submit" class="btn btn-primary mb-3" name="criarEscala">Criar escala</button>
-                            </form>
+        <div class="card">
+            <div class="card-body">
+                <form id="escalaForm" action="../../api/escalas.php" method="POST" onsubmit="return validateForm()">
+                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                    <input type="hidden" name="criarEscala" value="1">
+                    
+                    <!-- Data e Evento -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6>Data da Escala</h6>
+                            <input type="text" class="datepicker form-control" id="dataEscala" name="dataEscala" 
+                                   value="<?php echo date('d/m/Y'); ?>" required>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Tipo do Evento</h6>
+                            <select class="form-select" name="evento_id" required>
+                                <option value="">Selecione o tipo do evento</option>
+                                <?php while($row = $eventos->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                        <?php echo htmlspecialchars($row['titulo']); ?>
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
                         </div>
                     </div>
-                </div>
+
+                    <div class="section-divider"></div>
+
+                    <!-- Seleção de Músicos e Músicas -->
+                    <div class="action-buttons">
+                        <button type="button" class="btn btn-primary" onclick="abrirModalMusicos()">
+                            <i class="bi bi-people"></i> Selecionar Músicos
+                        </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#musicasModal">
+                            <i class="bi bi-music-note"></i> Selecionar Músicas
+                        </button>
+                    </div>
+
+                    <!-- Preview das Seleções -->
+                    <div id="musicosSelecionados" class="selection-preview"></div>
+                    <div id="musicasSelecionadas" class="selection-preview"></div>
+
+                    <!-- Inputs Ocultos -->
+                    <div id="hiddenInputs"></div>
+
+                    <div class="section-divider"></div>
+
+                    <!-- Botão Submit -->
+                    <button type="submit" class="btn btn-primary w-100" name="criarEscala">
+                        <i class="bi bi-check-lg"></i> Criar Escala
+                    </button>
+                </form>
             </div>
         </div>
+    </div>
 
-        <!-- Modais com melhorias de acessibilidade -->
-        <div class="modal fade" id="musicosModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Selecionar Músicos</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Modais com melhorias de acessibilidade -->
+    <div class="modal fade" id="musicosModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Selecionar Músicos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Debug info -->
+                    <div id="modalDebug" style="display:none;">
+                        <pre></pre>
                     </div>
-                    <div class="modal-body">
-                        <!-- Debug info -->
-                        <div id="modalDebug" style="display:none;">
-                            <pre></pre>
+                    
+                    <!-- Lista de músicos -->
+                    <?php if ($musicos && $musicos->rowCount() > 0): ?>
+                        <div class="list-group">
+                            <?php while ($musico = $musicos->fetch(PDO::FETCH_ASSOC)): ?>
+                                <div class="list-group-item">
+                                    <div class="form-check">
+                                        <input type="checkbox" 
+                                               class="form-check-input musico-checkbox" 
+                                               id="musico<?php echo $musico['id']; ?>" 
+                                               value="<?php echo $musico['id']; ?>">
+                                        <label class="form-check-label" 
+                                               for="musico<?php echo $musico['id']; ?>">
+                                            <?php echo htmlspecialchars($musico['nome']); ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
                         </div>
-                        
-                        <!-- Lista de músicos -->
-                        <?php if ($musicos && $musicos->rowCount() > 0): ?>
-                            <div class="list-group">
-                                <?php while ($musico = $musicos->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <div class="list-group-item">
-                                        <div class="form-check">
-                                            <input type="checkbox" 
-                                                   class="form-check-input musico-checkbox" 
-                                                   id="musico<?php echo $musico['id']; ?>" 
-                                                   value="<?php echo $musico['id']; ?>">
-                                            <label class="form-check-label" 
-                                                   for="musico<?php echo $musico['id']; ?>">
-                                                <?php echo htmlspecialchars($musico['nome']); ?>
-                                            </label>
-                                        </div>
-                                    </div>
-                                <?php endwhile; ?>
-                            </div>
-                        <?php else: ?>
-                            <p class="alert alert-warning">Nenhum músico cadastrado.</p>
-                        <?php endif; ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" onclick="confirmarSelecaoMusicos()">Confirmar</button>
-                    </div>
+                    <?php else: ?>
+                        <p class="alert alert-warning">Nenhum músico cadastrado.</p>
+                    <?php endif; ?>
                 </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="musicasModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Selecionar Músicas</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <?php if ($musicas && $musicas->rowCount() > 0): ?>
-                            <div class="list-group">
-                                <?php while ($musica = $musicas->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <div class="list-group-item">
-                                        <div class="form-check">
-                                            <input type="checkbox" 
-                                                   class="form-check-input musica-checkbox" 
-                                                   id="musica<?php echo $musica['id']; ?>" 
-                                                   value="<?php echo $musica['id']; ?>">
-                                            <label class="form-check-label" 
-                                                   for="musica<?php echo $musica['id']; ?>">
-                                                <?php echo htmlspecialchars($musica['titulo']); ?>
-                                            </label>
-                                        </div>
-                                    </div>
-                                <?php endwhile; ?>
-                            </div>
-                        <?php else: ?>
-                            <p class="alert alert-warning">Nenhuma música cadastrada.</p>
-                        <?php endif; ?>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary" onclick="confirmarSelecaoMusicas()">Confirmar</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmarSelecaoMusicos()">Confirmar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <?php include '../../includes/footer.php'; ?>
-
+    <div class="modal fade" id="musicasModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Selecionar Músicas</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <?php if ($musicas && $musicas->rowCount() > 0): ?>
+                        <div class="list-group">
+                            <?php while ($musica = $musicas->fetch(PDO::FETCH_ASSOC)): ?>
+                                <div class="list-group-item">
+                                    <div class="form-check">
+                                        <input type="checkbox" 
+                                               class="form-check-input musica-checkbox" 
+                                               id="musica<?php echo $musica['id']; ?>" 
+                                               value="<?php echo $musica['id']; ?>">
+                                        <label class="form-check-label" 
+                                               for="musica<?php echo $musica['id']; ?>">
+                                            <?php echo htmlspecialchars($musica['titulo']); ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
+                        </div>
+                    <?php else: ?>
+                        <p class="alert alert-warning">Nenhuma música cadastrada.</p>
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmarSelecaoMusicas()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -423,7 +605,14 @@ if (isset($_SESSION['error'])) {
                 <div class="alert alert-success">
                     <p><strong>Músicos selecionados:</strong></p>
                     <ul class="mb-0">
-                        ${musicos.map(m => `<li>${m.nome}</li>`).join('')}
+                        ${musicos.map(m => `
+                            <li class="d-flex align-items-center gap-2 mb-2">
+                                <button type="button" class="btn btn-sm btn-link text-danger p-0" 
+                                        onclick="removerMusico('${m.id}')">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                                <span>${m.nome}</span>
+                            </li>`).join('')}
                     </ul>
                 </div>
             `;
@@ -514,7 +703,14 @@ if (isset($_SESSION['error'])) {
             musicosList.innerHTML = `
                 <div class="alert alert-success">
                     <h6>Músicos selecionados (${musicosSelecionados.length}):</h6>
-                    <ul>${musicosSelecionados.map(m => `<li>${m.nome}</li>`).join('')}</ul>
+                    <ul>${musicosSelecionados.map(m => `
+                        <li class="d-flex align-items-center gap-2 mb-2">
+                            <button type="button" class="btn btn-sm btn-link text-danger p-0" 
+                                    onclick="removerMusico('${m.id}')">
+                                <i class="bi bi-x-circle"></i>
+                            </button>
+                            <span>${m.nome}</span>
+                        </li>`).join('')}
                 </div>`;
         } else {
             musicosList.innerHTML = `
@@ -525,14 +721,9 @@ if (isset($_SESSION['error'])) {
     // Função para confirmar seleção de músicas
     function confirmarSelecaoMusicas() {
         try {
-            // Pega todos os checkboxes marcados
             const checkboxes = document.querySelectorAll('.musica-checkbox:checked');
-            console.log('Checkboxes de músicas marcados:', checkboxes.length);
-
-            // Limpa a array de músicas selecionadas
             musicasSelecionadas = [];
 
-            // Para cada checkbox marcado
             checkboxes.forEach(checkbox => {
                 const id = checkbox.value;
                 const label = document.querySelector(`label[for="musica${id}"]`);
@@ -541,14 +732,12 @@ if (isset($_SESSION['error'])) {
                 musicasSelecionadas.push({ 
                     id, 
                     titulo,
-                    tom: '' // Tom inicial vazio
+                    tom: '' 
                 });
             });
 
-            // Atualiza o formulário
             atualizarFormularioMusicas();
 
-            // Fecha o modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('musicasModal'));
             if (modal) modal.hide();
 
@@ -561,29 +750,10 @@ if (isset($_SESSION['error'])) {
     function atualizarFormularioMusicas() {
         const hiddenContainer = document.getElementById('hiddenInputs');
         
-        // Remove inputs antigos de músicas e tons
+        // Remove inputs antigos
         document.querySelectorAll('input[name="musicas[]"]').forEach(el => el.remove());
         document.querySelectorAll('input[name^="tons["]').forEach(el => el.remove());
         
-        // Cria novos inputs hidden para músicas e tons
-        musicasSelecionadas.forEach(musica => {
-            // Input para música
-            const inputMusica = document.createElement('input');
-            inputMusica.type = 'hidden';
-            inputMusica.name = 'musicas[]';
-            inputMusica.value = musica.id;
-            hiddenContainer.appendChild(inputMusica);
-
-            // Input para tom
-            if (musica.tom) {
-                const inputTom = document.createElement('input');
-                inputTom.type = 'hidden';
-                inputTom.name = `tons[${musica.id}]`;
-                inputTom.value = musica.tom;
-                hiddenContainer.appendChild(inputTom);
-            }
-        });
-
         // Atualiza visualização
         const musicasList = document.getElementById('musicasSelecionadas');
         if (musicasSelecionadas.length > 0) {
@@ -593,15 +763,34 @@ if (isset($_SESSION['error'])) {
                     <ul>`;
             
             musicasSelecionadas.forEach(musica => {
+                // Adiciona input hidden para música
+                const inputMusica = document.createElement('input');
+                inputMusica.type = 'hidden';
+                inputMusica.name = 'musicas[]';
+                inputMusica.value = musica.id;
+                hiddenContainer.appendChild(inputMusica);
+
+                // Adiciona input hidden para tom
+                if (musica.tom) {
+                    const inputTom = document.createElement('input');
+                    inputTom.type = 'hidden';
+                    inputTom.name = `tons[${musica.id}]`;
+                    inputTom.value = musica.tom;
+                    hiddenContainer.appendChild(inputTom);
+                }
+
                 html += `
-                    <li>
-                        ${musica.titulo}
+                    <li class="d-flex align-items-center gap-2 mb-2">
+                        <button type="button" class="btn btn-sm btn-link text-danger p-0" 
+                                onclick="removerMusica('${musica.id}')">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
+                        <span>${musica.titulo}</span>
                         <select class="form-select form-select-sm d-inline-block w-auto ms-2" 
-                                onchange="atualizarTom('${musica.id}', this.value)">
+                                onchange="atualizarTom('${musica.id}', this.value)" required>
                             <option value="">Selecione o tom</option>`;
                 
-                // Adiciona as opções de tom
-                const tons = getTons(); // Função que retorna os tons do PHP
+                const tons = getTons();
                 tons.forEach(tom => {
                     html += `
                         <option value="${tom.id}" ${musica.tom === tom.id ? 'selected' : ''}>
@@ -625,7 +814,19 @@ if (isset($_SESSION['error'])) {
         const musica = musicasSelecionadas.find(m => m.id === musicaId);
         if (musica) {
             musica.tom = tomId;
-            atualizarFormularioMusicas();
+            
+            // Atualiza ou cria o input hidden para o tom
+            const hiddenContainer = document.getElementById('hiddenInputs');
+            let tomInput = document.querySelector(`input[name="tons[${musicaId}]"]`);
+            
+            if (!tomInput) {
+                tomInput = document.createElement('input');
+                tomInput.type = 'hidden';
+                tomInput.name = `tons[${musicaId}]`;
+                hiddenContainer.appendChild(tomInput);
+            }
+            
+            tomInput.value = tomId;
         }
     }
 
@@ -687,6 +888,25 @@ if (isset($_SESSION['error'])) {
             };
         }
     });
+
+    // Add these new functions
+    function removerMusico(id) {
+        musicosSelecionados = musicosSelecionados.filter(m => m.id !== id);
+        atualizarFormularioMusicos();
+        
+        // Uncheck the checkbox in the modal if it's open
+        const checkbox = document.querySelector(`#musico${id}`);
+        if (checkbox) checkbox.checked = false;
+    }
+
+    function removerMusica(id) {
+        musicasSelecionadas = musicasSelecionadas.filter(m => m.id !== id);
+        atualizarFormularioMusicas();
+        
+        // Uncheck the checkbox in the modal if it's open
+        const checkbox = document.querySelector(`#musica${id}`);
+        if (checkbox) checkbox.checked = false;
+    }
     </script>
 </body>
 </html>

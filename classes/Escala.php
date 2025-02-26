@@ -1,7 +1,7 @@
 <?php
 class Escala {
     private $conn;
-    private $table_name = "escalas";
+    private $table_principal = "escalas";
     private $table_detalhes = "escala_detalhes";
 
     public function __construct($db) {
@@ -16,7 +16,7 @@ class Escala {
             error_log("Iniciando criação de escala com dados: " . print_r($dados, true));
 
             // Insere a escala principal
-            $query = "INSERT INTO " . $this->table_name . " (evento_id, dataEscala) VALUES (:evento_id, :dataEscala)";
+            $query = "INSERT INTO " . $this->table_principal . " (evento_id, dataEscala) VALUES (:evento_id, :dataEscala)";
             $stmt = $this->conn->prepare($query);
             
             $stmt->bindParam(":dataEscala", $dados['dataEscala']);
@@ -65,11 +65,7 @@ class Escala {
     }
 
     public function listar() {
-        $query = "SELECT e.*, ev.titulo as evento_titulo 
-                 FROM " . $this->table_name . " e
-                 LEFT JOIN eventos ev ON e.evento_id = ev.id
-                 ORDER BY e.dataEscala DESC";
-        
+        $query = "SELECT * FROM " . $this->table_principal . " ORDER BY dataEscala DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         
@@ -78,33 +74,56 @@ class Escala {
 
     public function buscarPorId($id) {
         try {
-            // Busca informações básicas da escala
-            $sql = "SELECT e.*, ev.titulo as evento_titulo 
-                    FROM " . $this->table_name . " e
-                    LEFT JOIN eventos ev ON e.evento_id = ev.id
-                    WHERE e.id = :id";
-            $stmt = $this->conn->prepare($sql);
+            // Buscar detalhes do evento e escala
+            $query = "SELECT e.*, e.dataEscala, ev.titulo as evento_titulo
+                     FROM " . $this->table_principal . " e
+                     LEFT JOIN eventos ev ON e.evento_id = ev.id
+                     WHERE e.id = :id";
+            $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
-            
             $escala = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if (!$escala) {
                 return null;
             }
 
-            // Busca detalhes da escala (músicos, músicas e tons)
-            $sql = "SELECT ed.*, m.nome as musico_nome, mu.titulo as musica_titulo, t.nome as tom_nome
-                    FROM " . $this->table_detalhes . " ed
-                    INNER JOIN musicos m ON ed.musico_id = m.id
-                    INNER JOIN musicas mu ON ed.musica_id = mu.id
-                    INNER JOIN tons t ON ed.tom_id = t.id
-                    WHERE ed.escala_id = :escala_id";
-            $stmt = $this->conn->prepare($sql);
+            // Buscar músicos únicos desta escala
+            $query = "SELECT DISTINCT m.id, m.nome, m.instrumento
+                     FROM " . $this->table_detalhes . " ed
+                     LEFT JOIN musicos m ON ed.musico_id = m.id 
+                     WHERE ed.escala_id = :escala_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':escala_id', $id);
+            $stmt->execute();
+            $escala['musicos'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Buscar músicas com seus respectivos tons
+            $query = "SELECT DISTINCT 
+                        m.id as musica_id,
+                        m.titulo as musica_titulo,
+                        ed.tom_id
+                     FROM " . $this->table_detalhes . " ed
+                     LEFT JOIN musicas m ON ed.musica_id = m.id
+                     WHERE ed.escala_id = :escala_id
+                     ORDER BY m.titulo";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':escala_id', $id);
+            $stmt->execute();
+            $escala['musicas'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Buscar detalhes completos (relacionamento músico-música-tom)
+            $query = "SELECT 
+                        ed.musico_id,
+                        ed.musica_id,
+                        ed.tom_id
+                     FROM " . $this->table_detalhes . " ed
+                     WHERE ed.escala_id = :escala_id";
+            $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':escala_id', $id);
             $stmt->execute();
             $escala['detalhes'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+            
             return $escala;
         } catch(PDOException $e) {
             throw $e;

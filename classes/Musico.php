@@ -74,4 +74,18 @@ class Musico {
             throw $e;
         }
     }
+
+    public function editar($id, $nome, $instrumento) {
+        try {
+            $query = "UPDATE " . $this->table_name . " SET nome = :nome, instrumento = :instrumento WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':instrumento', $instrumento);
+            return $stmt->execute();
+        } catch(PDOException $e) {
+            throw $e;
+        }
+    }
+    
 }

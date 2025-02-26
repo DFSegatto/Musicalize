@@ -9,7 +9,6 @@ $musico = new Musico($db);
 // Verifica se o parâmetro mostrarInativos está presente na URL
 $apenasAtivos = !isset($_GET['mostrarInativos']);
 $musicos = $musico->listar($apenasAtivos);
-
 ?>
 
 <html>
@@ -57,6 +56,9 @@ $musicos = $musico->listar($apenasAtivos);
                                             <i class="bi bi-person-check"></i> Ativar
                                         </button>
                                     <?php endif; ?>
+                                    <button class="btn btn-danger" onclick="editarMusico(<?php echo $musico['id']; ?>, '<?php echo $musico['nome']; ?>', '<?php echo $musico['instrumento']; ?>')">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </button>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -64,10 +66,40 @@ $musicos = $musico->listar($apenasAtivos);
                 </table>
             </div>
         </div>
+
+        <!-- Add Modal -->
+        <div class="modal fade" id="editarMusicoModal" tabindex="-1" aria-labelledby="editarMusicoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editarMusicoModalLabel">Editar Músico</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editarMusicoForm">
+                            <input type="hidden" id="editMusicoId">
+                            <div class="mb-3">
+                                <label for="editNome" class="form-label">Nome</label>
+                                <input type="text" class="form-control" id="editNome" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editInstrumento" class="form-label">Instrumento</label>
+                                <input type="text" class="form-control" id="editInstrumento" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="salvarEdicao()">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <?php include '../../includes/footer.php'; ?>
-    </body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
         document.getElementById('mostrarInativos').addEventListener('change', function() {
             const url = new URL(window.location.href);
             if (this.checked) {
@@ -112,5 +144,54 @@ $musicos = $musico->listar($apenasAtivos);
                 });
             }
         }
-    </script>
+
+        let editModal;
+        document.addEventListener('DOMContentLoaded', function() {
+            editModal = new bootstrap.Modal(document.getElementById('editarMusicoModal'));
+        });
+
+        function editarMusico(id, nome, instrumento) {
+            document.getElementById('editMusicoId').value = id;
+            document.getElementById('editNome').value = nome;
+            document.getElementById('editInstrumento').value = instrumento;
+            editModal.show();
+        }
+
+        function salvarEdicao() {
+            const id = document.getElementById('editMusicoId').value;
+            const nome = document.getElementById('editNome').value;
+            const instrumento = document.getElementById('editInstrumento').value;
+
+            if (!nome || !instrumento) {
+                alert('Por favor, preencha todos os campos');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('nome', nome);
+            formData.append('instrumento', instrumento);
+            formData.append('acao', 'editarMusico');
+
+            fetch('../../api/musicos.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.success);
+                    editModal.hide();
+                    location.reload();
+                } else if (data.error) {
+                    alert('Erro: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao processar requisição: ' + error.message);
+            });
+        }
+        </script>
+    </body>
 </html>

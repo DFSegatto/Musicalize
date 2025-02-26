@@ -14,7 +14,7 @@ class Tom {
             $stmt->execute();
             return $stmt;
         } catch(PDOException $e) {
-            return false;
+            return $e->getMessage();
         }
     }
 }

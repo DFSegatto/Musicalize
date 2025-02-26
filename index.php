@@ -23,6 +23,11 @@
             <a href="./modules/eventos/index.php"><img src="./assets/css/img/calendario.png" alt="Playlist Manancial" width="100" height="100"></a>
             <p>Eventos</p>
             </div>
+            <!-- Quarto ícone Músicos -->  
+            <div class="col text-center">
+            <a href="./modules/musicos/index.php"><img src="./assets/css/img/musico.png" alt="Playlist Manancial" width="100" height="100"></a>
+            <p>Músicos</p>
+            </div>
         </div>
         </div>
         <?php include 'includes/footer.php'; ?>

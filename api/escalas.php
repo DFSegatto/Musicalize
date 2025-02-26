@@ -4,8 +4,6 @@ require_once '../classes/Database.php';
 require_once '../classes/Escala.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['criarEscala'])) {
-    // Debug: Imprimir dados recebidos
-    error_log("Dados recebidos do formulário: " . print_r($_POST, true));
     
     try {
         $database = new Database();
@@ -16,31 +14,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['criarEscala'])) {
         if (empty($_POST['dataEscala'])) {
             throw new Exception("A data da escala é obrigatória");
         }
-        error_log("Data recebida: " . $_POST['dataEscala']);
 
         // Validação do evento
         if (empty($_POST['evento_id'])) {
             throw new Exception("Selecione o tipo do evento");
         }
-        error_log("Evento ID recebido: " . $_POST['evento_id']);
 
         // Validação dos músicos
         if (!isset($_POST['musicos']) || !is_array($_POST['musicos']) || empty($_POST['musicos'])) {
             throw new Exception("Selecione pelo menos um músico para a escala");
         }
-        error_log("Músicos recebidos: " . print_r($_POST['musicos'], true));
 
         // Validação das músicas e tons
         if (!isset($_POST['musicas']) || !is_array($_POST['musicas']) || empty($_POST['musicas'])) {
             throw new Exception("Selecione pelo menos uma música para a escala");
         }
-        error_log("Músicas recebidas: " . print_r($_POST['musicas'], true));
 
         if (!isset($_POST['tons']) || !is_array($_POST['tons'])) {
             throw new Exception("Tons não foram definidos corretamente");
         }
-        error_log("Tons recebidos: " . print_r($_POST['tons'], true));
-
+        
         // Formata a data
         $data = DateTime::createFromFormat('d/m/Y', $_POST['dataEscala']);
         if (!$data) {

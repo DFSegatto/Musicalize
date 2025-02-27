@@ -56,6 +56,7 @@ class Escala {
         }
     }
 
+    // Função para listar todas as escalas
     public function listar() {
         $query = "SELECT * FROM " . $this->table_principal . " ORDER BY dataEscala DESC";
         $stmt = $this->conn->prepare($query);
@@ -64,6 +65,7 @@ class Escala {
         return $stmt;
     }
 
+    // Função para listar escalas com filtro
     public function listarPorFiltro($dataInicial, $dataFinal, $eventoFiltro = null) {
         $sql = "SELECT e.*, ev.titulo as evento_titulo 
                 FROM escalas e 

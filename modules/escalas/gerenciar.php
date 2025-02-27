@@ -5,9 +5,18 @@ include_once '../../classes/Escala.php';
 $db = new Database();
 $db = $db->getConnection();
 
-$escalas = new Escala($db);
-?>
+// Inicialização do objeto Escala
+$escalasObj = new Escala($db);
 
+// Pegar parâmetros do filtro
+$dataInicial = isset($_GET['data_inicial']) ? $_GET['data_inicial'] : date('Y-m-01');
+$dataFinal = isset($_GET['data_final']) ? $_GET['data_final'] : date('Y-m-t');
+$eventoFiltro = isset($_GET['evento']) ? $_GET['evento'] : null;
+
+// Buscar escalas com filtro
+$stmt = $escalasObj->listarPorFiltro($dataInicial, $dataFinal, $eventoFiltro);
+
+?>
 <html>
     <head>
         <title>Manancial - Escalas</title>
@@ -37,25 +46,33 @@ $escalas = new Escala($db);
                             <h5 class="card-title">Selecione uma escala</h5>
                             
                             <!-- Filtros -->
-                            <div class="row mb-3">
+                            <form method="GET" class="row mb-3">
                                 <div class="col-md-4">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text">Data inicial</span>
+                                        <input type="date" name="data_inicial" class="form-control" value="<?php echo $dataInicial; ?>">
+                                    </div>
                                     <div class="input-group">
-                                        <span class="input-group-text">Data</span>
-                                        <input type="date" id="filtroData" class="form-control">
+                                        <span class="input-group-text">Data final</span>
+                                        <input type="date" name="data_final" class="form-control" value="<?php echo $dataFinal; ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <span class="input-group-text">Evento</span>
-                                        <input type="text" id="filtroEvento" class="form-control" placeholder="Buscar evento...">
+                                        <input type="text" name="evento" class="form-control" placeholder="Buscar evento" 
+                                               value="<?php echo htmlspecialchars($eventoFiltro); ?>">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <button class="btn btn-secondary" onclick="limparFiltros()">
-                                        <i class="bi bi-x-circle"></i> Limpar Filtros
+                                    <button type="submit" class="btn btn-primary me-2">
+                                        <i class="bi bi-search"></i> Filtrar
                                     </button>
+                                    <a href="gerenciar.php" class="btn btn-secondary">
+                                        <i class="bi bi-x-circle"></i> Limpar Filtros
+                                    </a>
                                 </div>
-                            </div>
+                            </form>
 
                             <table class="table table-bordered">
                                 <thead>
@@ -67,9 +84,8 @@ $escalas = new Escala($db);
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $stmt = $escalas->listar();
                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                        $result = $escalas->buscarPorId($row['id']);
+                                        $result = $escalasObj->buscarPorId($row['id']);
                                         $dataFormatada = date('d/m/Y', strtotime($row['dataEscala']));
                                         $isOldDate = $row['dataEscala'] < date('Y-m-d');
                                         echo "<tr>";
@@ -276,51 +292,6 @@ ${musicasText}`;
             
             const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
             window.open(url, '_blank');
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Adiciona eventos aos filtros
-            document.getElementById('filtroData').addEventListener('input', aplicarFiltros);
-            document.getElementById('filtroEvento').addEventListener('input', aplicarFiltros);
-        });
-
-        function aplicarFiltros() {
-            const filtroData = document.getElementById('filtroData').value;
-            const filtroEvento = document.getElementById('filtroEvento').value.toLowerCase();
-            const tabela = document.querySelector('table tbody');
-            const linhas = tabela.getElementsByTagName('tr');
-
-            for (let linha of linhas) {
-                let data = linha.cells[0].textContent;
-                let evento = linha.cells[1].textContent.toLowerCase();
-                let mostrar = true;
-
-                if (filtroData) {
-                    // Converter data DD/MM/YYYY para YYYY-MM-DD para comparação
-                    const [dia, mes, ano] = data.split('/');
-                    const dataFormatada = `${ano}-${mes}-${dia}`;
-                    if (dataFormatada !== filtroData) {
-                        mostrar = false;
-                    }
-                }
-
-                if (filtroEvento && !evento.includes(filtroEvento)) {
-                    mostrar = false;
-                }
-
-                linha.style.display = mostrar ? '' : 'none';
-            }
-        }
-
-        function limparFiltros() {
-            document.getElementById('filtroData').value = '';
-            document.getElementById('filtroEvento').value = '';
-            const tabela = document.querySelector('table tbody');
-            const linhas = tabela.getElementsByTagName('tr');
-            
-            for (let linha of linhas) {
-                linha.style.display = '';
-            }
         }
     </script>
 </html>

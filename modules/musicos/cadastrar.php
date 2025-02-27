@@ -16,7 +16,15 @@
                 <div class="mb-3">
                     <label for="instrumento" class="form-label">Instrumento</label>
                     <input type="text" class="form-control" id="instrumento" name="instrumento" required>
-                </div>              
+                </div>
+                <div class="mb-3">
+                    <label for="telefone" class="form-label">WhatsApp</label>
+                    <input type="tel" class="form-control" id="telefone" name="telefone" 
+                           placeholder="Ex: 5549999999999"
+                           pattern="[0-9]{13,}"
+                           title="Digite o número com código do país e DDD (ex: 5549999999999)">
+                    <div class="form-text">Digite o número com código do país (55) e DDD, sem espaços ou caracteres especiais</div>
+                </div>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
             </form>
         </div>

@@ -27,7 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $musico->ativar($id);
                 echo json_encode(['success' => 'Músico ativado com sucesso!']);
             } else if ($acao === 'editarMusico') {
-                $musico->editar($id, $_POST['nome'], $_POST['instrumento']);
+                $telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
+                
+                // Validação básica do formato do telefone
+                if ($telefone && !preg_match('/^[0-9]{13,}$/', $telefone)) {
+                    throw new Exception('Formato de telefone inválido. Use apenas números, incluindo código do país e DDD.');
+                }
+                
+                $musico->editar($id, $_POST['nome'], $_POST['instrumento'], $telefone);
                 echo json_encode(['success' => 'Músico editado com sucesso!']);
             } else {
                 throw new Exception('Ação inválida');
@@ -44,7 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 throw new Exception('Dados incompletos para cadastro');
             }
 
-            $musico->cadastrar($_POST['nome'], $_POST['instrumento']);
+            $telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
+            
+            // Validação básica do formato do telefone
+            if ($telefone && !preg_match('/^[0-9]{13,}$/', $telefone)) {
+                throw new Exception('Formato de telefone inválido. Use apenas números, incluindo código do país e DDD.');
+            }
+
+            $musico->cadastrar($_POST['nome'], $_POST['instrumento'], $telefone);
             header('Location: ../modules/musicos/cadastrar.php');
             exit;
         } catch(Exception $e) {

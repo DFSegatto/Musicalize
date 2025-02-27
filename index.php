@@ -16,17 +16,22 @@
             <!-- Segundo ícone Escala -->  
             <div class="col text-center">
             <a href="./modules/escalas/index.php"><img src="./assets/css/img/checklist.png" alt="Playlist Manancial" width="100" height="100"></a>
-            <p>Escala</p>
+            <p>Escalas</p>
             </div>
             <!-- Terceiro ícone Eventos -->  
             <div class="col text-center">
-            <a href="./modules/eventos/index.php"><img src="./assets/css/img/calendario.png" alt="Playlist Manancial" width="100" height="100"></a>
+            <a href="./modules/eventos/index.php"><img src="./assets/css/img/calendario.png" alt="Eventos Manancial" width="100" height="100"></a>
             <p>Eventos</p>
             </div>
             <!-- Quarto ícone Músicos -->  
             <div class="col text-center">
-            <a href="./modules/musicos/index.php"><img src="./assets/css/img/musico.png" alt="Playlist Manancial" width="100" height="100"></a>
+            <a href="./modules/musicos/index.php"><img src="./assets/css/img/musico.png" alt="Músicos Manancial" width="100" height="100"></a>
             <p>Músicos</p>
+            </div>
+            <!-- Quinto ícone Jejum -->  
+            <div class="col text-center">
+            <a href="./modules/jejum/index.php"><img src="./assets/css/img/jejum.png" alt="Jejum Manancial" width="100" height="100"></a>
+            <p>Jejum</p>
             </div>
         </div>
         </div>

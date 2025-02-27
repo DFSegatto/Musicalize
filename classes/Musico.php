@@ -9,7 +9,7 @@ class Musico {
 
     public function listar($apenasAtivos = true) {
         try {
-            $query = "SELECT id, nome, instrumento, status FROM " . $this->table_name;
+            $query = "SELECT id, nome, instrumento, telefone, status FROM " . $this->table_name;
             if ($apenasAtivos) {
                 $query .= " WHERE status = 1";
             }
@@ -23,12 +23,13 @@ class Musico {
         }
     }
 
-    public function cadastrar($nome, $instrumento) {
+    public function cadastrar($nome, $instrumento, $telefone = null) {
         try {
-            $query = "INSERT INTO " . $this->table_name . " (nome, instrumento) VALUES (:nome, :instrumento)";
+            $query = "INSERT INTO " . $this->table_name . " (nome, instrumento, telefone) VALUES (:nome, :instrumento, :telefone)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':instrumento', $instrumento);
+            $stmt->bindParam(':telefone', $telefone);
             return $stmt->execute();
         } catch(PDOException $e) {
             return $e->getMessage();
@@ -75,17 +76,17 @@ class Musico {
         }
     }
 
-    public function editar($id, $nome, $instrumento) {
+    public function editar($id, $nome, $instrumento, $telefone = null) {
         try {
-            $query = "UPDATE " . $this->table_name . " SET nome = :nome, instrumento = :instrumento WHERE id = :id";
+            $query = "UPDATE " . $this->table_name . " SET nome = :nome, instrumento = :instrumento, telefone = :telefone WHERE id = :id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
             $stmt->bindParam(':nome', $nome);
             $stmt->bindParam(':instrumento', $instrumento);
+            $stmt->bindParam(':telefone', $telefone);
             return $stmt->execute();
         } catch(PDOException $e) {
             throw $e;
         }
     }
-    
 }

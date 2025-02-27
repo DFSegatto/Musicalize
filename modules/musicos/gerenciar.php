@@ -86,6 +86,13 @@ $musicos = $musico->listar($apenasAtivos);
                                 <label for="editInstrumento" class="form-label">Instrumento</label>
                                 <input type="text" class="form-control" id="editInstrumento" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="editTelefone" class="form-label">WhatsApp</label>
+                                <input type="tel" class="form-control" id="editTelefone" name="telefone" 
+                                       placeholder="Ex: 5549999999999"
+                                       pattern="[0-9]{13,}"
+                                       title="Digite o número com código do país e DDD (ex: 5549999999999)">
+                            </div>
                         </form>
                     </div>
                     <div class="modal-footer">

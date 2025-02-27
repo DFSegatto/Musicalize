@@ -12,9 +12,6 @@ class Escala {
         try {
             $this->conn->beginTransaction();
             
-            // Log dos dados recebidos
-            error_log("Iniciando criação de escala com dados: " . print_r($dados, true));
-
             // Insere a escala principal
             $query = "INSERT INTO " . $this->table_principal . " (evento_id, dataEscala) VALUES (:evento_id, :dataEscala)";
             $stmt = $this->conn->prepare($query);
@@ -23,12 +20,10 @@ class Escala {
             $stmt->bindParam(":evento_id", $dados['evento_id']);
             
             if (!$stmt->execute()) {
-                error_log("Erro ao inserir escala principal: " . print_r($stmt->errorInfo(), true));
                 throw new Exception("Erro ao criar escala principal");
             }
             
             $escala_id = $this->conn->lastInsertId();
-            error_log("Escala principal criada com ID: " . $escala_id);
 
             // Insere os detalhes
             foreach ($dados['musicos'] as $musico_id) {
@@ -47,19 +42,16 @@ class Escala {
                     $stmt->bindParam(":tom_id", $tom_id);
                     
                     if (!$stmt->execute()) {
-                        error_log("Erro ao inserir detalhe da escala: " . print_r($stmt->errorInfo(), true));
                         throw new Exception("Erro ao inserir detalhe da escala");
                     }
                 }
             }
 
             $this->conn->commit();
-            error_log("Escala criada com sucesso!");
             return true;
 
         } catch (Exception $e) {
             $this->conn->rollBack();
-            error_log("Erro na criação da escala: " . $e->getMessage());
             throw $e;
         }
     }
@@ -71,6 +63,37 @@ class Escala {
         
         return $stmt;
     }
+
+    public function listarPorFiltro($dataInicial, $dataFinal, $eventoFiltro = null) {
+        $sql = "SELECT e.*, ev.titulo as evento_titulo 
+                FROM escalas e 
+                INNER JOIN eventos ev ON e.evento_id = ev.id 
+                WHERE e.dataEscala BETWEEN :data_inicial AND :data_final";
+        
+        $params = [
+            ':data_inicial' => $dataInicial,
+            ':data_final' => $dataFinal
+        ];
+
+        if (!empty($eventoFiltro)) {
+            $sql .= " AND ev.titulo LIKE :evento";
+            $params[':evento'] = "%$eventoFiltro%";
+        }
+
+        $sql .= " ORDER BY e.dataEscala ASC";
+
+        try {
+            $stmt = $this->conn->prepare($sql);
+            foreach ($params as $key => $value) {
+                $stmt->bindValue($key, $value);
+            }
+            $stmt->execute();
+            return $stmt;
+        } catch (PDOException $e) {
+            throw $e;
+        }
+    }
+
 
     public function buscarPorId($id) {
         try {

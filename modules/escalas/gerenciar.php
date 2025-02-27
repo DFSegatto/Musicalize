@@ -35,6 +35,28 @@ $escalas = new Escala($db);
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Selecione uma escala</h5>
+                            
+                            <!-- Filtros -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Data</span>
+                                        <input type="date" id="filtroData" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Evento</span>
+                                        <input type="text" id="filtroEvento" class="form-control" placeholder="Buscar evento...">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-secondary" onclick="limparFiltros()">
+                                        <i class="bi bi-x-circle"></i> Limpar Filtros
+                                    </button>
+                                </div>
+                            </div>
+
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -54,6 +76,7 @@ $escalas = new Escala($db);
                                         echo "<td" . ($isOldDate ? " class='text-decoration-line-through text-danger'" : "") . ">" . $dataFormatada . "</td>";
                                         echo "<td" . ($isOldDate ? " class='text-decoration-line-through text-danger'" : "") . ">" . $result['evento_titulo'] . "</td>";
                                         echo "<td>
+                                        <div class='text-center'>
                                         <button type='button' 
                                             data-bs-toggle='modal' 
                                             data-bs-target='#detalhesModal' 
@@ -65,8 +88,7 @@ $escalas = new Escala($db);
                                                 json_encode($result['detalhes']) . 
                                             ")' 
                                             class='btn btn-info'>Detalhes</button>
-                                        <a href='editar.php?id=" . $row['id'] . "' " . ($isOldDate ? "class='btn btn-primary disabled'" : "class='btn btn-primary'") . ">Editar</a>
-                                        <a href='deletar.php?id=" . $row['id'] . "' " . ($isOldDate ? "class='btn btn-danger disabled'" : "class='btn btn-danger'") . ">Deletar</a>
+                                            </div>
                                         </td>";
                                         echo "</tr>";
                                     }
@@ -254,6 +276,51 @@ ${musicasText}`;
             
             const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
             window.open(url, '_blank');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adiciona eventos aos filtros
+            document.getElementById('filtroData').addEventListener('input', aplicarFiltros);
+            document.getElementById('filtroEvento').addEventListener('input', aplicarFiltros);
+        });
+
+        function aplicarFiltros() {
+            const filtroData = document.getElementById('filtroData').value;
+            const filtroEvento = document.getElementById('filtroEvento').value.toLowerCase();
+            const tabela = document.querySelector('table tbody');
+            const linhas = tabela.getElementsByTagName('tr');
+
+            for (let linha of linhas) {
+                let data = linha.cells[0].textContent;
+                let evento = linha.cells[1].textContent.toLowerCase();
+                let mostrar = true;
+
+                if (filtroData) {
+                    // Converter data DD/MM/YYYY para YYYY-MM-DD para comparação
+                    const [dia, mes, ano] = data.split('/');
+                    const dataFormatada = `${ano}-${mes}-${dia}`;
+                    if (dataFormatada !== filtroData) {
+                        mostrar = false;
+                    }
+                }
+
+                if (filtroEvento && !evento.includes(filtroEvento)) {
+                    mostrar = false;
+                }
+
+                linha.style.display = mostrar ? '' : 'none';
+            }
+        }
+
+        function limparFiltros() {
+            document.getElementById('filtroData').value = '';
+            document.getElementById('filtroEvento').value = '';
+            const tabela = document.querySelector('table tbody');
+            const linhas = tabela.getElementsByTagName('tr');
+            
+            for (let linha of linhas) {
+                linha.style.display = '';
+            }
         }
     </script>
 </html>

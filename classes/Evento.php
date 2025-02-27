@@ -9,12 +9,25 @@ class Evento {
 
     public function listar() {
         try {
-            $query = "SELECT id, titulo FROM " . $this->table_name . " ORDER BY titulo";
+            $query = "SELECT id, titulo, tipo FROM " . $this->table_name . " ORDER BY titulo";
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             return $stmt;
         } catch(PDOException $e) {
             return false;
+        }
+    }
+
+    public function cadastrar($titulo, $tipo) {
+        try {
+            $query = "INSERT INTO " . $this->table_name . " (titulo, tipo) VALUES (:titulo, :tipo)";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':titulo', $titulo);
+            $stmt->bindParam(':tipo', $tipo);
+            $stmt->execute();
+            return $stmt;
+        } catch(PDOException $e) {
+            return $e->getMessage();
         }
     }
 }

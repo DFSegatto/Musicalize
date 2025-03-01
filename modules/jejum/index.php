@@ -23,18 +23,18 @@
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Cadastrar Jejum -->
+                                <!-- Card 1: Cadastrar Jejum -->
                                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                                     <a href="cadastrar.php" class="block text-center">
                                         <div class="flex flex-col items-center">
                                             <span class="material-symbols-outlined text-6xl text-indigo-600 mb-4">edit_calendar</span>
-                                            <h3 class="text-lg font-semibold text-gray-800">Cadastrar/Atualizar Jejum</h3>
-                                            <p class="text-gray-600 mt-2">Definir ou atualizar dias de jejum dos músicos</p>
+                                            <h3 class="text-lg font-semibold text-gray-800">Cadastrar Jejum</h3>
+                                            <p class="text-gray-600 mt-2">Adicionar novo jejum ao sistema</p>
                                         </div>
                                     </a>
                                 </div>
 
-                                <!-- Gerenciar Jejum -->
+                                <!-- Card 2: Visualizar Jejum -->
                                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                                     <a href="gerenciar.php" class="block text-center">
                                         <div class="flex flex-col items-center">

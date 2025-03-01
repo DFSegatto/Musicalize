@@ -3,13 +3,13 @@ session_start();
 require_once '../classes/Database.php';
 require_once '../classes/Escala.php';
 
+$database = new Database();
+$db = $database->getConnection();
+$escala = new Escala($db);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['criarEscala'])) {
     
     try {
-        $database = new Database();
-        $db = $database->getConnection();
-        $escala = new Escala($db);
-
         // Validação da data
         if (empty($_POST['dataEscala'])) {
             throw new Exception("A data da escala é obrigatória");
@@ -66,6 +66,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['criarEscala'])) {
     // Redireciona de volta
     header('Location: ../modules/escalas/criar.php');
     exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+    try {
+        $id = $_GET['id'];
+        $escala = $escala->buscarPorId($id);
+        
+        if ($escala) {
+            echo json_encode($escala);
+        } else {
+            http_response_code(404);
+            echo json_encode(['error' => 'Escala não encontrada']);
+        }
+    } catch (Exception $e) {
+        $_SESSION['error'] = "Erro ao buscar escala: " . $e->getMessage();
+        exit;
+    }
+} else {
+    http_response_code(400);
+    echo json_encode(['error' => 'ID não fornecido']);
 }
 
 // Se chegou aqui, método não é POST ou não é criação de escala

@@ -58,289 +58,128 @@ if (isset($_SESSION['error'])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../../assets/css/style.css">
     <style>
-        :root {
-            --primary-dark: #000706;
-            --secondary-dark: #00272D;
-            --primary-teal: #134647;
-            --secondary-teal: #0C7E7E;
-            --accent: #BFAC8B;
-        }
-
-        body {
-            background-color: var(--primary-dark);
-            color: #fff;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1000px;
-            padding: 2rem;
-        }
-
         .datepicker-dropdown {
-            background-color: black !important;
+            background-color: var(--bs-white) !important;
+            border: 1px solid var(--bs-gray-300);
         }
 
-        .datepicker-switch:hover{
-            background-color: white !important;
-            color: black !important;
+        .datepicker table tr td.active.active {
+            background-color: var(--bs-indigo) !important;
+            border-color: var(--bs-indigo) !important;
         }
 
-        .prev:hover{
-            background-color: white !important;
-            color: black !important;
+        .form-select, .form-control {
+            border-color: var(--bs-gray-300);
         }
 
-        .next:hover{
-            background-color: white !important;
-            color: black !important;
-        }
-        
-        .day:hover{
-            background-color: white !important;
-            color: black !important;
-        }
-
-        .card {
-            background-color: var(--secondary-dark);
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-body {
-            padding: 2rem;
-        }
-
-        option{
-            background-color: black !important;
-            color: white !important;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+        .form-select:focus, .form-control:focus {
+            border-color: var(--bs-indigo);
+            box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
         }
 
         .btn-primary {
-            background-color: var(--secondary-teal);
-            border: none;
+            background-color: var(--bs-indigo);
+            border-color: var(--bs-indigo);
         }
 
         .btn-primary:hover {
-            background-color: var(--primary-teal);
-            transform: translateY(-1px);
-        }
-
-        .form-select, .form-control, .datepicker {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border-radius: 8px;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-select:focus, .form-control:focus, .datepicker:focus {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: var(--secondary-teal);
-            box-shadow: none;
-            color: #fff;
+            background-color: var(--bs-indigo);
+            filter: brightness(90%);
         }
 
         .modal-content {
-            background-color: var(--secondary-dark);
-            border: none;
-            border-radius: 12px;
-        }
-
-        .modal-header, .modal-footer {
-            border: none;
-            padding: 1.5rem;
+            border-radius: 0.5rem;
         }
 
         .list-group-item {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            margin-bottom: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            border-color: var(--bs-gray-300);
         }
 
         .list-group-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: var(--bs-gray-100);
         }
-
-        .alert {
-            border-radius: 8px;
-            padding: 1rem 1.5rem;
-            margin-bottom: 1.5rem;
-            border: none;
-        }
-
-        .alert-success {
-            background-color: rgba(12, 126, 126, 0.2);
-            color: #fff;
-        }
-
-        .alert-info {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-
-        .tons-card {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        h1 {
-            color: #fff;
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        h5, h6 {
-            color: #fff;
-            font-weight: 500;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-check-input {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .form-check-input:checked {
-            background-color: var(--secondary-teal);
-            border-color: var(--secondary-teal);
-        }
-
-        .btn-close {
-            filter: invert(1) brightness(200%);
-        }
-
-        /* Espaçamento e organização */
-        .section-divider {
-            margin: 2rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .selection-preview {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .card-body {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .action-buttons {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }       
     </style>
 </head>
 <body>
-    <?php include '../../includes/header.php'; ?>
-    
-    <div class="container">
-        <h1>Criar Escala</h1>
-        
-        <!-- Alertas -->
-        <?php foreach ($alertMessages as $type => $message): ?>
-            <div class="alert alert-<?php echo $type === 'error' ? 'danger' : $type; ?> alert-dismissible fade show">
-                <?php echo htmlspecialchars($message); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endforeach; ?>
+    <div id="webcrumbs" class="min-h-screen">
+        <div class="w-full bg-gray-50 font-sans">
+            <?php include '../../includes/header.php'; ?>
 
-        <div class="card">
-            <div class="card-body">
-                <form id="escalaForm" action="../../api/escalas.php" method="POST" onsubmit="return validateForm()">
-                    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
-                    <input type="hidden" name="criarEscala" value="1">
-                    
-                    <!-- Data e Evento -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h6>Data da Escala</h6>
-                            <input type="text" class="datepicker form-control" id="dataEscala" name="dataEscala" 
-                                   value="<?php echo date('d/m/Y'); ?>" required>
+            <div class="flex min-h-screen">
+                <?php include '../../includes/navbar.php'; ?>
+
+                <main class="flex-1 p-4 md:p-6 overflow-auto">
+                    <div class="container mx-auto">
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="text-xl md:text-2xl font-bold">Criar Nova Escala</h2>
                         </div>
-                        <div class="col-md-6">
-                            <h6>Tipo do Evento</h6>
-                            <select class="form-select" name="evento_id" required>
-                                <option value="">Selecione o tipo do evento</option>
-                                <?php while($row = $eventos->fetch(PDO::FETCH_ASSOC)): ?>
-                                    <option value="<?php echo htmlspecialchars($row['id']); ?>">
-                                        <?php echo htmlspecialchars($row['titulo']); ?>
-                                    </option>
-                                <?php endwhile; ?>
-                            </select>
+
+                        <!-- Alertas -->
+                        <?php foreach ($alertMessages as $type => $message): ?>
+                            <div class="alert alert-<?php echo $type === 'error' ? 'danger' : $type; ?> alert-dismissible fade show mb-4">
+                                <?php echo htmlspecialchars($message); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <div class="bg-white rounded-lg shadow-md p-6">
+                            <form id="escalaForm" action="../../api/escalas.php" method="POST" onsubmit="return validateForm()">
+                                <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
+                                <input type="hidden" name="criarEscala" value="1">
+                                
+                                <!-- Data e Evento -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                    <div>
+                                        <label class="form-label font-medium text-gray-700">Data da Escala</label>
+                                        <input type="text" class="datepicker form-control" id="dataEscala" name="dataEscala" 
+                                               value="<?php echo date('d/m/Y'); ?>" required>
+                                    </div>
+                                    <div>
+                                        <label class="form-label font-medium text-gray-700">Tipo do Evento</label>
+                                        <select class="form-select" name="evento_id" required>
+                                            <option value="">Selecione o tipo do evento</option>
+                                            <?php while($row = $eventos->fetch(PDO::FETCH_ASSOC)): ?>
+                                                <option value="<?php echo htmlspecialchars($row['id']); ?>">
+                                                    <?php echo htmlspecialchars($row['titulo']); ?>
+                                                </option>
+                                            <?php endwhile; ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Seleção de Músicos e Músicas -->
+                                <div class="flex flex-wrap gap-4 mb-6">
+                                    <button type="button" class="btn btn-primary" onclick="abrirModalMusicos()">
+                                        <i class="bi bi-people me-2"></i>Selecionar Músicos
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#musicasModal">
+                                        <i class="bi bi-music-note me-2"></i>Selecionar Músicas
+                                    </button>
+                                </div>
+
+                                <!-- Preview das Seleções -->
+                                <div id="musicosSelecionados" class="mb-4"></div>
+                                <div id="musicasSelecionadas" class="mb-4"></div>
+
+                                <!-- Inputs Ocultos -->
+                                <div id="hiddenInputs"></div>
+
+                                <!-- Botão Submit -->
+                                <button type="submit" class="btn btn-primary w-100" name="criarEscala">
+                                    <i class="bi bi-check-lg me-2"></i>Criar Escala
+                                </button>
+                            </form>
                         </div>
                     </div>
-
-                    <div class="section-divider"></div>
-
-                    <!-- Seleção de Músicos e Músicas -->
-                    <div class="action-buttons">
-                        <button type="button" class="btn btn-primary" onclick="abrirModalMusicos()">
-                            <i class="bi bi-people"></i> Selecionar Músicos
-                        </button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#musicasModal">
-                            <i class="bi bi-music-note"></i> Selecionar Músicas
-                        </button>
-                    </div>
-
-                    <!-- Preview das Seleções -->
-                    <div id="musicosSelecionados" class="selection-preview"></div>
-                    <div id="musicasSelecionadas" class="selection-preview"></div>
-
-                    <!-- Inputs Ocultos -->
-                    <div id="hiddenInputs"></div>
-
-                    <div class="section-divider"></div>
-
-                    <!-- Botão Submit -->
-                    <button type="submit" class="btn btn-primary w-100" name="criarEscala">
-                        <i class="bi bi-check-lg"></i> Criar Escala
-                    </button>
-                </form>
+                </main>
             </div>
         </div>
     </div>
 
-    <!-- Modais com melhorias de acessibilidade -->
+    <!-- Modais -->
     <div class="modal fade" id="musicosModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -349,12 +188,6 @@ if (isset($_SESSION['error'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Debug info -->
-                    <div id="modalDebug" style="display:none;">
-                        <pre></pre>
-                    </div>
-                    
-                    <!-- Lista de músicos -->
                     <?php if ($musicos && $musicos->rowCount() > 0): ?>
                         <div class="list-group">
                             <?php while ($musico = $musicos->fetch(PDO::FETCH_ASSOC)): ?>
@@ -420,12 +253,14 @@ if (isset($_SESSION['error'])) {
             </div>
         </div>
     </div>
+
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
     
+    <!-- Manter o script JavaScript existente aqui -->
     <script>
     // Namespace principal
     const EscalaManager = {

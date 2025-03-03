@@ -27,8 +27,14 @@
 
                     <main class="flex-1 p-4 md:p-6 overflow-auto">
                         <div class="container mx-auto">
-                            <div class="flex justify-between items-center mb-8">
-                                <h2 class="text-xl md:text-2xl font-bold">Gerenciar Eventos</h2>
+                        <div class="mb-4">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <a href="index.php" class="btn btn-link text-muted p-0">
+                                        <span class="material-symbols-outlined">arrow_back</span>
+                                    </a>
+                                    <h2 class="text-xl md:text-2xl font-bold">Gerenciar Eventos</h2>
+                                </div>
+                                <p class="text-gray-600 mb-0">Visualizar e editar tipos de eventos cadastrados</p>
                             </div>
 
                             <?php if (isset($_SESSION['success'])): ?>

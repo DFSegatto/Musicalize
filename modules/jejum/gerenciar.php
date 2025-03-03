@@ -30,7 +30,15 @@ $jejuns = $jejuns->listar();
                     <main class="flex-1 p-4 md:p-6 overflow-auto">
                         <div class="container mx-auto">
                             <div class="flex justify-between items-center mb-8">
-                                <h2 class="text-xl md:text-2xl font-bold">Visualizar Jejum</h2>
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <a href="index.php" class="btn btn-link text-muted p-0">
+                                        <span class="material-symbols-outlined">arrow_back</span>
+                                    </a>
+                                    <h1 class="h3 fw-bold mb-0">Cadastrar Jejum</h1>
+                                </div>
+                                <p class="text-muted mb-0">Visualize os dias de jejum cadastrados</p>
+                            </div>
                                 <button onclick="window.location.href='enviar_mensagens.php'" 
                                     class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 transform hover:scale-105 transition-all">
                                     <i class="bi bi-whatsapp"></i>

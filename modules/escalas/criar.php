@@ -103,9 +103,15 @@ if (isset($_SESSION['error'])) {
 
                 <main class="flex-1 p-4 md:p-6 overflow-auto">
                     <div class="container mx-auto">
-                        <div class="flex justify-between items-center mb-8">
-                            <h2 class="text-xl md:text-2xl font-bold">Criar Nova Escala</h2>
-                        </div>
+                    <div class="mb-4">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <a href="index.php" class="btn btn-link text-muted p-0">
+                                        <span class="material-symbols-outlined">arrow_back</span>
+                                    </a>
+                                    <h1 class="h3 fw-bold mb-0">Cadastrar Nova Escala</h1>
+                                </div>
+                                <p class="text-muted mb-0">Preencha os dados da nova escala</p>
+                            </div>
 
                         <!-- Alertas -->
                         <?php foreach ($alertMessages as $type => $message): ?>

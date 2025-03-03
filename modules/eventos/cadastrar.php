@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Manancial - Eventos</title>
+        <title>Manancial - Cadastrar Evento</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
@@ -18,8 +18,14 @@
 
                     <main class="flex-1 p-4 md:p-6 overflow-auto">
                         <div class="container mx-auto">
-                            <div class="flex justify-between items-center mb-8">
-                                <h2 class="text-xl md:text-2xl font-bold">Cadastrar Novo Evento</h2>
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <a href="index.php" class="btn btn-link text-muted p-0">
+                                        <span class="material-symbols-outlined">arrow_back</span>
+                                    </a>
+                                    <h2 class="text-xl md:text-2xl font-bold">Cadastrar Evento</h2>
+                                </div>
+                                <p class="text-gray-600 mb-0">Preencha os dados do novo evento</p>
                             </div>
 
                             <?php if (isset($_SESSION['success'])): ?>

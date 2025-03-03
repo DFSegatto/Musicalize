@@ -18,9 +18,12 @@
 
                     <main class="flex-1 p-4 md:p-6 overflow-auto">
                         <div class="container mx-auto">
-                            <div class="flex justify-between items-center mb-8">
-                                <h2 class="text-xl md:text-2xl font-bold">Gerenciamento de Eventos</h2>
-                            </div>
+                        <div class="mb-4">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <h2 class="text-xl md:text-2xl font-bold">Gerenciamento de Eventos</h2>
+                                </div>
+                                <p class="text-gray-600 mb-0">Gerencie os eventos cadastrados</p>
+                        </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <!-- Cadastrar Evento -->

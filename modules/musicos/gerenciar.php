@@ -11,144 +11,94 @@ $apenasAtivos = !isset($_GET['mostrarInativos']);
 $musicos = $musico->listar($apenasAtivos);
 ?>
 
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Manancial - Músicos</title>
+        <title>Manancial - Gerenciar Músicos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <link rel="stylesheet" href="../../assets/css/style.css">
     </head>
     <body>
-        <div id="webcrumbs" class="min-h-screen">
-            <div class="w-full bg-gray-50 font-sans">
-                <header class="bg-indigo-600 text-white py-4 px-6 shadow-lg">
-                    <div class="container mx-auto flex justify-between items-center">
-                        <h1 class="text-2xl font-bold">Manancial</h1>
-                        <div class="flex items-center space-x-4">
-                            <span class="relative">
-                                <span class="material-symbols-outlined text-2xl cursor-pointer hover:text-indigo-200 transition-colors">notifications</span>
-                                <span class="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
-                            </span>
-                            <details class="relative">
-                                <summary class="flex items-center space-x-2 cursor-pointer list-none">
-                                    <div class="w-10 h-10 rounded-full bg-indigo-300 flex items-center justify-center">
-                                        <span class="material-symbols-outlined">person</span>
+        <div id="webcrumbs" class="min-vh-100">
+            <div class="bg-light">
+                <?php include '../../includes/header.php'; ?>
+
+                <div class="d-flex min-vh-100">
+                    <?php include '../../includes/navbar.php'; ?>
+
+                    <main class="flex-grow-1 overflow-auto bg-light">
+                        <div class="container-fluid p-4">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                                <div class="mb-3 mb-md-0">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <a href="index.php" class="btn btn-link text-muted p-0">
+                                            <span class="material-symbols-outlined">arrow_back</span>
+                                        </a>
+                                        <h1 class="h3 fw-bold mb-0">Gerenciar Músicos</h1>
                                     </div>
-                                    <span class="hidden md:inline">Usuário</span>
-                                    <span class="material-symbols-outlined">expand_more</span>
-                                </summary>
-                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-10 py-2">
-                                    <a href="#" class="block px-4 py-2 hover:bg-indigo-100 transition-colors">Meu Perfil</a>
-                                    <a href="#" class="block px-4 py-2 hover:bg-indigo-100 transition-colors">Configurações</a>
-                                    <a href="#" class="block px-4 py-2 hover:bg-indigo-100 transition-colors">Sair</a>
+                                    <p class="text-muted mb-0">Gerencie os músicos cadastrados no sistema</p>
                                 </div>
-                            </details>
-                        </div>
-                    </div>
-                </header>
-
-                <div class="flex min-h-screen">
-                    <aside class="w-16 md:w-64 bg-white shadow-md">
-                        <nav class="p-4">
-                            <ul class="space-y-2">
-                                <li>
-                                    <a href="../../index.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
-                                        <span class="material-symbols-outlined">dashboard</span>
-                                        <span class="hidden md:inline">Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="../eventos/index.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
-                                        <span class="material-symbols-outlined">event</span>
-                                        <span class="hidden md:inline">Eventos</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="index.php" class="flex items-center space-x-3 p-3 rounded-lg bg-indigo-50 text-indigo-700">
-                                        <span class="material-symbols-outlined">music_note</span>
-                                        <span class="hidden md:inline">Músicos</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="../escalas/index.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
-                                        <span class="material-symbols-outlined">playlist_add_check</span>
-                                        <span class="hidden md:inline">Escalas</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="../musicas/index.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
-                                        <span class="material-symbols-outlined">queue_music</span>
-                                        <span class="hidden md:inline">Playlist</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="../jejum/index.php" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
-                                        <span class="material-symbols-outlined">timer</span>
-                                        <span class="hidden md:inline">Jejum</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </aside>
-
-                    <main class="flex-1 p-4 md:p-6 overflow-auto">
-                        <div class="container mx-auto">
-                            <div class="flex justify-between items-center mb-8">
-                                <h2 class="text-xl md:text-2xl font-bold">Gerenciar Músicos</h2>
-                                <div class="flex items-center space-x-4">
-                                    <label class="inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" 
-                                               class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500" 
-                                               id="mostrarInativos" 
-                                               <?php echo isset($_GET['mostrarInativos']) ? 'checked' : ''; ?>>
-                                        <span class="ml-2 text-gray-700">Mostrar músicos inativos</span>
-                                    </label>
+                                
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" 
+                                           class="form-check-input" 
+                                           id="mostrarInativos" 
+                                           <?php echo isset($_GET['mostrarInativos']) ? 'checked' : ''; ?>>
+                                    <label class="form-check-label" for="mostrarInativos">Mostrar músicos inativos</label>
                                 </div>
                             </div>
 
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                                <div class="overflow-x-auto">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instrumento</th>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-white divide-y divide-gray-200">
-                                            <?php while ($row = $musicos->fetch(PDO::FETCH_ASSOC)): ?>
-                                                <tr class="hover:bg-gray-50">
-                                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['nome']; ?></td>
-                                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo $row['instrumento']; ?></td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full <?php echo $row['status'] ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'; ?>">
-                                                            <?php echo $row['status'] ? 'Ativo' : 'Inativo'; ?>
-                                                        </span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-2">
-                                                        <?php if ($row['status']): ?>
-                                                            <button onclick="alterarStatus(<?php echo $row['id']; ?>, 'inativar')" 
-                                                                    class="text-yellow-600 hover:text-yellow-900">
-                                                                <span class="material-symbols-outlined">person_off</span>
-                                                            </button>
-                                                        <?php else: ?>
-                                                            <button onclick="alterarStatus(<?php echo $row['id']; ?>, 'ativar')" 
-                                                                    class="text-green-600 hover:text-green-900">
-                                                                <span class="material-symbols-outlined">person_add</span>
-                                                            </button>
-                                                        <?php endif; ?>
-                                                        <button onclick="editarMusico(<?php echo $row['id']; ?>, '<?php echo $row['nome']; ?>', '<?php echo $row['instrumento']; ?>')" 
-                                                                class="text-indigo-600 hover:text-indigo-900">
-                                                            <span class="material-symbols-outlined">edit</span>
-                                                        </button>
-                                                    </td>
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle mb-0">
+                                            <thead class="bg-light">
+                                                <tr>
+                                                    <th class="ps-4">Nome</th>
+                                                    <th>Instrumento</th>
+                                                    <th>Status</th>
+                                                    <th class="text-end pe-4">Ações</th>
                                                 </tr>
-                                            <?php endwhile; ?>
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody class="border-top-0">
+                                                <?php while ($row = $musicos->fetch(PDO::FETCH_ASSOC)): ?>
+                                                    <tr>
+                                                        <td class="ps-4"><?php echo $row['nome']; ?></td>
+                                                        <td><?php echo $row['instrumento']; ?></td>
+                                                        <td>
+                                                            <span class="badge <?php echo $row['status'] ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'; ?>">
+                                                                <?php echo $row['status'] ? 'Ativo' : 'Inativo'; ?>
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-end pe-4">
+                                                            <?php if ($row['status']): ?>
+                                                                <button onclick="alterarStatus(<?php echo $row['id']; ?>, 'inativar')" 
+                                                                        class="btn btn-light btn-sm me-1" 
+                                                                        title="Inativar">
+                                                                    <span class="material-symbols-outlined">person_off</span>
+                                                                </button>
+                                                            <?php else: ?>
+                                                                <button onclick="alterarStatus(<?php echo $row['id']; ?>, 'ativar')" 
+                                                                        class="btn btn-light btn-sm me-1"
+                                                                        title="Ativar">
+                                                                    <span class="material-symbols-outlined">person_add</span>
+                                                                </button>
+                                                            <?php endif; ?>
+                                                            
+                                                            <button onclick="editarMusico(<?php echo $row['id']; ?>, '<?php echo $row['nome']; ?>', '<?php echo $row['instrumento']; ?>')" 
+                                                                    class="btn btn-light btn-sm"
+                                                                    title="Editar">
+                                                                <span class="material-symbols-outlined">edit</span>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endwhile; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,45 +108,39 @@ $musicos = $musico->listar($apenasAtivos);
         </div>
 
         <!-- Modal de Edição -->
-        <div class="modal fade" id="editarMusicoModal" tabindex="-1" aria-labelledby="editarMusicoModalLabel" aria-hidden="true">
+        <div class="modal fade" id="editarMusicoModal" tabindex="-1">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-indigo-600 text-white">
-                        <h5 class="modal-title" id="editarMusicoModalLabel">Editar Músico</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content border-0">
+                    <div class="modal-header bg-primary text-white border-0">
+                        <h5 class="modal-title">Editar Músico</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="editarMusicoForm" class="space-y-4">
+                        <form id="editarMusicoForm">
                             <input type="hidden" id="editMusicoId">
-                            <div>
-                                <label for="editNome" class="block text-sm font-medium text-gray-700">Nome</label>
-                                <input type="text" 
-                                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
-                                       id="editNome" 
-                                       required>
+                            <div class="mb-3">
+                                <label for="editNome" class="form-label small fw-medium">Nome</label>
+                                <input type="text" class="form-control" id="editNome" required>
                             </div>
-                            <div>
-                                <label for="editInstrumento" class="block text-sm font-medium text-gray-700">Instrumento</label>
-                                <input type="text" 
-                                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
-                                       id="editInstrumento" 
-                                       required>
+                            <div class="mb-3">
+                                <label for="editInstrumento" class="form-label small fw-medium">Instrumento</label>
+                                <input type="text" class="form-control" id="editInstrumento" required>
                             </div>
-                            <div>
-                                <label for="editTelefone" class="block text-sm font-medium text-gray-700">WhatsApp</label>
+                            <div class="mb-3">
+                                <label for="editTelefone" class="form-label small fw-medium">WhatsApp</label>
                                 <input type="tel" 
-                                       class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
+                                       class="form-control" 
                                        id="editTelefone" 
-                                       name="telefone" 
                                        placeholder="Ex: 5549999999999"
                                        pattern="[0-9]{13,}"
                                        title="Digite o número com código do país e DDD (ex: 5549999999999)">
+                                <div class="form-text">Digite o número com código do país (55) e DDD</div>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700" onclick="salvarEdicao()">Salvar</button>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="salvarEdicao()">Salvar</button>
                     </div>
                 </div>
             </div>

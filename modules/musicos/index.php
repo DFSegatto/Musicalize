@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <!-- Cadastrar Músico -->
+                                <!-- Card 1: Cadastrar Músico -->
                                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                                     <a href="cadastrar.php" class="block text-center">
                                         <div class="flex flex-col items-center">
@@ -34,7 +34,7 @@
                                     </a>
                                 </div>
 
-                                <!-- Gerenciar Músicos -->
+                                <!-- Card 2: Gerenciar Músicos -->
                                 <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                                     <a href="gerenciar.php" class="block text-center">
                                         <div class="flex flex-col items-center">

@@ -80,16 +80,6 @@ if (isset($_SESSION['error'])) {
             box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
         }
 
-        .btn-primary {
-            background-color: var(--bs-indigo);
-            border-color: var(--bs-indigo);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--bs-indigo);
-            filter: brightness(90%);
-        }
-
         .modal-content {
             border-radius: 0.5rem;
         }

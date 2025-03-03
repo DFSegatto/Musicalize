@@ -19,83 +19,95 @@
         <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
-        <div id="webcrumbs" class="min-h-screen">
-            <div class="w-full bg-gray-50 font-sans">
+        <div id="webcrumbs" class="min-vh-100">
+            <div class="w-100 bg-light">
                 <?php include 'includes/header.php'; ?>
 
-                <div class="flex min-h-screen">
-                  <?php include 'includes/navbar.php'; ?>
+                <div class="d-flex min-vh-100">
+                    <?php include 'includes/navbar.php'; ?>
 
-                    <main class="flex-1 p-4 md:p-6 overflow-auto">
-                        <div class="container mx-auto">
-                            <div class="flex justify-between items-center mb-8">
-                                <h2 class="text-xl md:text-2xl font-bold">Gerenciamento de Escalas</h2>
-                                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-md flex items-center space-x-2 transform hover:scale-105 transition-all">
+                    <main class="flex-grow-1 overflow-auto bg-light">
+                        <div class="container-fluid p-4">
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+                                <div class="mb-3 mb-md-0">
+                                    <h1 class="h3 fw-bold mb-1">Gerenciamento de Escalas</h1>
+                                    <p class="text-muted mb-0">Organize e gerencie as escalas de músicos</p>
+                                </div>
+                                <button class="btn btn-primary d-inline-flex align-items-center gap-2">
                                     <span class="material-symbols-outlined">add</span>
-                                    <span>Nova Escala</span>
+                                    Nova Escala
                                 </button>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-1 gap-4 md:gap-6">
-                                <!-- Próximos Eventos -->
-                                <div class="bg-white p-6 rounded-lg shadow-md">
-                                    <h3 class="text-lg font-semibold mb-4">Próximos Eventos</h3>
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-gray-200">
-                                            <thead class="bg-gray-50">
-                                                <tr>
-                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Evento</th>
-                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data</th>
-                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="bg-white divide-y divide-gray-200">
-                                                <?php 
-                                                if (!empty($escalas)):
-                                                    while ($row = $escalas->fetch(PDO::FETCH_ASSOC)){
-                                                        $isOldDate = $row['dataEscala'] < date('Y-m-d');
-                                                        $escala = $escalasObj->buscarPorId($row['id']);
-                                                        $dataFormatada = date('d/m/Y', strtotime($row['dataEscala']));
-                                                        if (!$isOldDate):
-                                                ?>
-                                                <tr class="hover:bg-gray-50 transition-colors">
-                                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo $escala['evento_titulo']; ?></td>
-                                                    <td class="px-6 py-4 whitespace-nowrap"><?php echo $dataFormatada; ?></td>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                            Ativo
-                                                        </span>
-                                                    </td>
-                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <button 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#detalhesModal"
-                                                            onclick='abrirModalDetalhes(
-                                                                <?php echo json_encode($dataFormatada); ?>,
-                                                                <?php echo json_encode($escala["evento_titulo"]); ?>,
-                                                                <?php echo !empty($escala["musicos"]) ? json_encode($escala["musicos"]) : "[]"; ?>,
-                                                                <?php echo !empty($escala["musicas"]) ? json_encode($escala["musicas"]) : "[]"; ?>,
-                                                                <?php echo !empty($escala["detalhes"]) ? json_encode($escala["detalhes"]) : "[]"; ?>
-                                                            )' 
-                                                            class="text-indigo-600 hover:text-indigo-900 mr-3 transform hover:scale-110 transition-transform">
-                                                            <span class="material-symbols-outlined">visibility</span>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <?php 
-                                                        endif;
-                                                    }
-                                                else:
-                                                ?>
-                                                <tr>
-                                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">
-                                                        Nenhum evento disponível
-                                                    </td>
-                                                </tr>
-                                                <?php endif; ?>
-                                            </tbody>
-                                        </table>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card border-0 shadow-sm">
+                                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                                            <h5 class="card-title mb-0 fw-semibold">Próximos Eventos</h5>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover align-middle mb-0">
+                                                    <thead class="bg-light">
+                                                        <tr>
+                                                            <th class="ps-4">Evento</th>
+                                                            <th>Data</th>
+                                                            <th>Status</th>
+                                                            <th class="text-end pe-4">Ações</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="border-top-0">
+                                                        <?php 
+                                                        if (!empty($escalas)):
+                                                            while ($row = $escalas->fetch(PDO::FETCH_ASSOC)){
+                                                                $isOldDate = $row['dataEscala'] < date('Y-m-d');
+                                                                $escala = $escalasObj->buscarPorId($row['id']);
+                                                                $dataFormatada = date('d/m/Y', strtotime($row['dataEscala']));
+                                                                if (!$isOldDate):
+                                                        ?>
+                                                        <tr>
+                                                            <td class="text-truncate ps-4" style="max-width: 300px;">
+                                                                <div class="fw-medium"><?php echo $escala['evento_titulo']; ?></div>
+                                                            </td>
+                                                            <td><?php echo $dataFormatada; ?></td>
+                                                            <td>
+                                                                <span class="badge bg-success-subtle text-success">Ativo</span>
+                                                            </td>
+                                                            <td class="text-end pe-4">
+                                                                <button 
+                                                                    class="btn btn-light btn-sm"
+                                                                    data-bs-toggle="modal" 
+                                                                    data-bs-target="#detalhesModal"
+                                                                    onclick='abrirModalDetalhes(
+                                                                        <?php echo json_encode($dataFormatada); ?>,
+                                                                        <?php echo json_encode($escala["evento_titulo"]); ?>,
+                                                                        <?php echo !empty($escala["musicos"]) ? json_encode($escala["musicos"]) : "[]"; ?>,
+                                                                        <?php echo !empty($escala["musicas"]) ? json_encode($escala["musicas"]) : "[]"; ?>,
+                                                                        <?php echo !empty($escala["detalhes"]) ? json_encode($escala["detalhes"]) : "[]"; ?>
+                                                                    )'
+                                                                    title="Visualizar">
+                                                                    <span class="material-symbols-outlined">visibility</span>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <?php 
+                                                                endif;
+                                                            }
+                                                        else:
+                                                        ?>
+                                                        <tr>
+                                                            <td colspan="4" class="text-center text-muted py-4">
+                                                                <div class="d-flex flex-column align-items-center py-4">
+                                                                    <span class="material-symbols-outlined fs-1 mb-2">event_busy</span>
+                                                                    <p class="mb-0">Nenhum evento disponível</p>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -105,40 +117,40 @@
             </div>
         </div>
 
-        <!-- Substitua o Modal de Visualização atual por este -->
+        <!-- Modal de Visualização -->
         <div class="modal fade" id="detalhesModal" tabindex="-1">
             <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
+                <div class="modal-content border-0">
+                    <div class="modal-header bg-primary text-white border-0">
                         <h5 class="modal-title">Detalhes da Escala</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <!-- Informações do Evento -->
-                        <div class="card mb-3">
+                        <div class="card border-0 shadow-sm mb-3">
                             <div class="card-body">
-                                <div class="row">
+                                <div class="row g-3">
                                     <div class="col-md-6">
-                                        <h6 class="card-subtitle mb-2 text-muted">Data</h6>
-                                        <p class="card-text" id="modalData"></p>
+                                        <label class="text-muted small text-uppercase">Data</label>
+                                        <p class="mb-0 fw-medium" id="modalData"></p>
                                     </div>
                                     <div class="col-md-6">
-                                        <h6 class="card-subtitle mb-2 text-muted">Evento</h6>
-                                        <p class="card-text" id="modalEvento"></p>
+                                        <label class="text-muted small text-uppercase">Evento</label>
+                                        <p class="mb-0 fw-medium" id="modalEvento"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Músicos -->
-                        <div class="card mb-3">
+                        <div class="card border-0 shadow-sm mb-3">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">Músicos</h6>
+                                <h6 class="text-muted small text-uppercase mb-3">Músicos</h6>
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
                                             <tr>
-                                                <th>Música</th>
+                                                <th>Nome</th>
                                                 <th>Instrumento</th>
                                             </tr>
                                         </thead>
@@ -149,12 +161,12 @@
                         </div>
 
                         <!-- Repertório -->
-                        <div class="card mb-3">
+                        <div class="card border-0 shadow-sm mb-3">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">Repertório</h6>
+                                <h6 class="text-muted small text-uppercase mb-3">Repertório</h6>
                                 <div class="table-responsive">
-                                    <table class="table table-hover">
-                                        <thead>
+                                    <table class="table table-hover mb-0">
+                                        <thead class="table-light">
                                             <tr>
                                                 <th>Música</th>
                                                 <th>Tom</th>
@@ -166,8 +178,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" onclick="compartilharWhatsapp()">
+                            <span class="material-symbols-outlined me-2">share</span>
+                            Compartilhar
+                        </button>
                     </div>
                 </div>
             </div>

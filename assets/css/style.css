@@ -54,6 +54,7 @@ html {
 body {
   line-height: inherit;
   margin: 0;
+  overflow-x: hidden;
 }
 hr {
   border-top-width: 1px;
@@ -874,4 +875,203 @@ video {
   #webcrumbs .container {
     max-width: 1280px;
   }
+}
+
+/* Custom styles for Manancial */
+
+/* Base styles */
+:root {
+    --sidebar-width: 4rem;
+    --sidebar-width-expanded: 16rem;
+    --header-height: 56px;
+}
+
+body {
+    overflow-x: hidden;
+    background-color: var(--bs-light);
+    min-height: 100vh;
+}
+
+/* Navbar styles */
+#sideNav {
+    width: var(--sidebar-width);
+    height: calc(100vh - var(--header-height));
+    transition: width 0.3s ease;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    z-index: 1020;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#sideNav .menu-text {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+#sideNav.expanded {
+    width: var(--sidebar-width-expanded);
+}
+
+#sideNav.expanded .menu-text {
+    opacity: 1;
+}
+
+/* Main content adjustment */
+main {
+    margin-left: var(--sidebar-width);
+    transition: margin-left 0.3s ease;
+    min-height: calc(100vh - var(--header-height));
+}
+
+body.sidebar-expanded main {
+    margin-left: var(--sidebar-width-expanded);
+}
+
+/* Navigation styles */
+.nav-pills .nav-link {
+    color: var(--bs-gray-700);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.nav-pills .nav-link:hover:not(.active) {
+    background-color: var(--bs-gray-100);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+}
+
+/* Material Icons alignment */
+.material-symbols-outlined {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px !important;
+}
+
+/* Card styles */
+.card {
+    border-radius: 0.75rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-header:first-child {
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+/* Table styles */
+.table-responsive {
+    border-radius: 0.5rem;
+}
+
+.table > :not(caption) > * > * {
+    padding: 1rem;
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--bs-gray-600);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+/* Button styles */
+.btn {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+}
+
+.btn-primary {
+    box-shadow: 0 2px 4px rgba(var(--bs-primary-rgb), 0.15);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(var(--bs-primary-rgb), 0.2);
+}
+
+.btn-light {
+    background-color: var(--bs-gray-100);
+    border-color: var(--bs-gray-100);
+}
+
+.btn-light:hover {
+    background-color: var(--bs-gray-200);
+    border-color: var(--bs-gray-200);
+}
+
+/* Badge styles */
+.badge {
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    border-radius: 0.375rem;
+}
+
+/* Modal styles */
+.modal-content {
+    border-radius: 1rem;
+}
+
+.modal-header {
+    border-radius: calc(1rem - 1px) calc(1rem - 1px) 0 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    #sideNav {
+        width: 0;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+
+    #sideNav.expanded {
+        width: 280px;
+    }
+
+    main {
+        margin-left: 0 !important;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 0.75rem;
+    }
+}
+
+@media (min-width: 768px) {
+    #sideNav:hover {
+        width: var(--sidebar-width-expanded);
+    }
+
+    #sideNav:hover .menu-text {
+        opacity: 1;
+    }
+}
+
+/* Utility classes */
+.fw-medium {
+    font-weight: 500 !important;
+}
+
+.text-uppercase {
+    letter-spacing: 0.05em;
+}
+
+.shadow-hover {
+    transition: box-shadow 0.2s ease;
+}
+
+.shadow-hover:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }

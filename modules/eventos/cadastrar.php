@@ -61,8 +61,8 @@
                                     </div>
 
                                     <div class="mb-4">
-                                        <label for="descricao" class="form-label font-medium text-gray-700">Descrição</label>
-                                        <textarea class="form-control" id="descricao" name="descricao" rows="3"></textarea>
+                                        <label for="tipo" class="form-label font-medium text-gray-700">Tipo de Evento</label>
+                                        <input type="text" class="form-control" id="tipo" name="tipo" required>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary w-100">

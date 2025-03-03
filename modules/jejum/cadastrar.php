@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 include_once '../../classes/Database.php';
 include_once '../../classes/Jejum.php';
 include_once '../../classes/Musico.php';

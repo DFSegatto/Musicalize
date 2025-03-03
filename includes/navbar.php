@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/../config/init.php'; ?>
 <?php
 $current_page = basename($_SERVER['PHP_SELF']);
 $current_dir = basename(dirname($_SERVER['PHP_SELF']));
@@ -7,51 +8,39 @@ $current_dir = basename(dirname($_SERVER['PHP_SELF']));
     <nav class="p-3 h-100">
         <ul class="nav nav-pills flex-column gap-1">
             <li class="nav-item">
-                <a href="
-                <?php 
-                echo $current_dir == 'musicos' || 
-                $current_dir == 'eventos' || 
-                $current_dir == 'escalas' || 
-                $current_dir == 'musicas' || 
-                $current_dir == 'jejum' ? '../../' : './index.php'; ?>" 
-                   class="nav-link d-flex align-items-center gap-3 <?php echo $current_page == 'index.php' && $current_dir != 'musicos' ? 'active' : ''; ?>">
+                <a href="<?php echo url('/index.php'); ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
                     <span class="material-symbols-outlined">dashboard</span>
-                    <span class="menu-text">Dashboard</span>
+                    <span class="hidden md:inline menu-text">Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo $current_dir == 'eventos' ? '' : './modules/eventos/index.php'; ?>" 
-                   class="nav-link d-flex align-items-center gap-3 <?php echo $current_dir == 'eventos' ? 'active' : ''; ?>">
+                <a href="<?php echo url('/modules/eventos/index.php'); ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
                     <span class="material-symbols-outlined">event</span>
-                    <span class="menu-text">Eventos</span>
+                    <span class="hidden md:inline">Eventos</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo $current_dir == 'musicos' ? '' : './modules/musicos/index.php'; ?>" 
-                   class="nav-link d-flex align-items-center gap-3 <?php echo $current_dir == 'musicos' ? 'active' : ''; ?>">
+                <a href="<?php echo url('/modules/musicos/index.php'); ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
                     <span class="material-symbols-outlined">music_note</span>
-                    <span class="menu-text">Músicos</span>
+                    <span class="hidden md:inline">Músicos</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo $current_dir == 'escalas' ? '' : './modules/escalas/index.php'; ?>" 
-                   class="nav-link d-flex align-items-center gap-3 <?php echo $current_dir == 'escalas' ? 'active' : ''; ?>">
+                <a href="<?php echo url('/modules/escalas/index.php'); ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
                     <span class="material-symbols-outlined">playlist_add_check</span>
-                    <span class="menu-text">Escalas</span>
+                    <span class="hidden md:inline">Escalas</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo $current_dir == 'musicas' ? '' : './modules/musicas/index.php'; ?>" 
-                   class="nav-link d-flex align-items-center gap-3 <?php echo $current_dir == 'musicas' ? 'active' : ''; ?>">
+                <a href="<?php echo url('/modules/musicas/index.php'); ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
                     <span class="material-symbols-outlined">queue_music</span>
-                    <span class="menu-text">Playlist</span>
+                    <span class="hidden md:inline">Playlist</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo $current_dir == 'jejum' ? '' : './modules/jejum/index.php'; ?>" 
-                   class="nav-link d-flex align-items-center gap-3 <?php echo $current_dir == 'jejum' ? 'active' : ''; ?>">
+                <a href="<?php echo url('/modules/jejum/index.php'); ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-indigo-50 transition-colors">
                     <span class="material-symbols-outlined">timer</span>
-                    <span class="menu-text">Jejum</span>
+                    <span class="hidden md:inline">Jejum</span>
                 </a>
             </li>
         </ul>
@@ -62,6 +51,17 @@ $current_dir = basename(dirname($_SERVER['PHP_SELF']));
 function toggleNav() {
     const nav = document.getElementById('sideNav');
     nav.classList.toggle('expanded');
-    document.body.classList.toggle('sidebar-expanded');
+    
+    // Ajusta a visibilidade dos textos do menu
+    const menuTexts = nav.querySelectorAll('.hidden.md\\:inline');
+    menuTexts.forEach(text => {
+        if (nav.classList.contains('expanded')) {
+            text.style.display = 'inline';
+            text.style.opacity = '1';
+        } else {
+            text.style.display = '';
+            text.style.opacity = '';
+        }
+    });
 }
 </script>

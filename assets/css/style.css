@@ -1099,15 +1099,30 @@ p {
   }
 
   #sideNav.expanded {
-      width: 280px;
+      width: 250px;
   }
 
   main {
-      margin-left: 0 !important;
+      margin-left: 0;
   }
 
   .table > :not(caption) > * > * {
       padding: 0.75rem;
+  }
+
+  #sideNav .hidden {
+      display: none;
+  }
+  
+  #sideNav.expanded .hidden {
+      display: inline;
+  }
+  
+  /* Garante que os textos do menu apareçam quando expandido */
+  #sideNav.expanded .menu-text,
+  #sideNav.expanded .hidden.md\:inline {
+      display: inline !important;
+      opacity: 1 !important;
   }
 }
 

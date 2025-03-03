@@ -9,8 +9,22 @@ date_default_timezone_set('America/Sao_Paulo');
 // Configurações de sessão
 session_start();
 
+// Define o caminho base do projeto
+$base_path = '';
+
+// Detecta se está em ambiente de desenvolvimento
+if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1') {
+    $base_path = '/aplicativomanancial';
+}
+
+define('BASE_PATH', $base_path);
+
+// Função auxiliar para gerar URLs
+function url($path = '') {
+    return BASE_PATH . $path;
+}
+
 // Constantes da aplicação
-define('BASE_PATH', dirname(__DIR__));
 define('APP_URL', 'http://localhost/aplicativoManancial'); // Ajuste conforme seu ambiente
 
 // Configurações do banco de dados

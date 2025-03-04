@@ -33,7 +33,7 @@
                                     <h1 class="h3 fw-bold mb-1">Gerenciamento de Escalas</h1>
                                     <p class="text-muted mb-0">Organize e gerencie as escalas de músicos</p>
                                 </div>
-                                <button class="btn btn-primary d-inline-flex align-items-center gap-2">
+                                <button class="btn btn-primary d-inline-flex align-items-center gap-2" onclick="window.location.href='modules/escalas/criar.php'">
                                     <span class="material-symbols-outlined">add</span>
                                     Nova Escala
                                 </button>
@@ -93,17 +93,8 @@
                                                         <?php 
                                                                 endif;
                                                             }
-                                                        else:
+                                                        endif;
                                                         ?>
-                                                        <tr>
-                                                            <td colspan="4" class="text-center text-muted py-4">
-                                                                <div class="d-flex flex-column align-items-center py-4">
-                                                                    <span class="material-symbols-outlined fs-1 mb-2">event_busy</span>
-                                                                    <p class="mb-0">Nenhum evento disponível</p>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endif; ?>
                                                     </tbody>
                                                 </table>
                                             </div>

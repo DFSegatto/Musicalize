@@ -1,4 +1,9 @@
 <?php
+// Configurar timezone para Brasil
+date_default_timezone_set('America/Sao_Paulo');
+mb_internal_encoding('UTF-8');
+header('Content-Type: text/html; charset=utf-8');
+
 require_once '../../classes/Database.php';
 require_once '../../classes/Jejum.php';
 
@@ -12,8 +17,9 @@ class WhatsAppNotificacao {
 
     public function gerarLinksJejum() {
         try {
-            // Obtém o dia da semana atual (0 = Domingo, 6 = Sábado)
-            $diaSemanaAtual = date('w');
+            // Obtém o dia da semana atual (0 = Domingo, 1 = Segunda, etc)
+            setlocale(LC_TIME, 'pt_BR.utf8', 'portuguese');
+            $diaSemanaAtual = (int)strftime('%w');
             
             // Busca músicos que têm jejum programado para hoje
             $query = "SELECT m.nome, m.telefone, j.dia_semana 
@@ -30,7 +36,6 @@ class WhatsAppNotificacao {
             
             foreach ($musicos as $musico) {
                 if (empty($musico['telefone'])) {
-                    error_log("Músico {$musico['nome']} não tem telefone cadastrado");
                     continue;
                 }
                 
@@ -49,7 +54,7 @@ class WhatsAppNotificacao {
     }
     
     private function montarMensagem($nome) {
-        return "Olá {$nome}! 🙏\n\n" .
+        return "Olá {$nome}!\n\n" .
                "Este é um lembrete carinhoso do seu dia de jejum.\n" .
                "Que Deus abençoe seu tempo de consagração!\n\n" .
                "- Ministério Manancial";

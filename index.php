@@ -188,13 +188,6 @@
         <script>
             function abrirModalDetalhes(data, evento, musicos, musicas, detalhes) {
                 try {
-                    // Debug
-                    console.log('Dados recebidos:', {
-                        musicos: musicos,
-                        musicas: musicas,
-                        detalhes: detalhes
-                    });
-
                     // Informações básicas
                     document.getElementById('modalData').textContent = data;
                     document.getElementById('modalEvento').textContent = evento;

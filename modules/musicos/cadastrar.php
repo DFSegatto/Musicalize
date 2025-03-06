@@ -38,70 +38,72 @@ if (isset($_SESSION['error'])) {
         <link rel="stylesheet" href="../../assets/css/style.css">
     </head>
     <body>
-        <div id="webcrumbs" class="min-vh-100">
-            <div class="bg-light">
+    <div id="webcrumbs" class="min-h-screen">
+            <div class="w-full bg-gray-50 font-sans">
                 <?php include '../../includes/header.php'; ?>
 
-                <div class="d-flex min-vh-100">
+                <div class="flex min-h-screen">
                     <?php include '../../includes/navbar.php'; ?>
 
-                    <main class="flex-grow-1 overflow-auto bg-light">
-                        <div class="container-fluid p-4">
+                    <main class="flex-1 p-4 md:p-6 overflow-auto">
+                        <div class="container mx-auto">
                             <div class="mb-4">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <a href="index.php" class="btn btn-link text-muted p-0">
                                         <span class="material-symbols-outlined">arrow_back</span>
                                     </a>
-                                    <h1 class="h3 fw-bold mb-0">Cadastrar Músico</h1>
+                                    <h2 class="text-xl md:text-2xl font-bold">Cadastrar Músico</h2>
                                 </div>
-                                <p class="text-muted mb-0">Preencha os dados do novo músico</p>
+                                <p class="text-gray-600 mb-0">Preencha os dados do novo músico</p>
                             </div>
 
-                            <div class="row justify-content-center">
-                                <div class="col-12 col-md-8 col-lg-6">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-body p-4">
-                                            <form action="../../api/musicos.php" method="post">
-                                                <div class="mb-4">
-                                                    <label for="nome" class="form-label small fw-medium">Nome</label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="nome" 
-                                                           name="nome" 
-                                                           required>
-                                                </div>
-                                                
-                                                <div class="mb-4">
-                                                    <label for="instrumento" class="form-label small fw-medium">Instrumento</label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="instrumento" 
-                                                           name="instrumento" 
-                                                           required>
-                                                </div>
-                                                
-                                                <div class="mb-4">
-                                                    <label for="telefone" class="form-label small fw-medium">WhatsApp</label>
-                                                    <input type="tel" 
-                                                           class="form-control" 
-                                                           id="telefone" 
-                                                           name="telefone" 
-                                                           placeholder="Ex: 5549999999999"
-                                                           pattern="[0-9]{13,}"
-                                                           title="Digite o número com código do país e DDD (ex: 5549999999999)">
-                                                    <div class="form-text">Digite o número com código do país (55) e DDD, sem espaços ou caracteres especiais</div>
-                                                </div>
+                        <!-- Alertas -->
+                        <?php foreach ($alertMessages as $type => $message): ?>
+                            <div class="alert alert-<?php echo $type === 'error' ? 'danger' : $type; ?> alert-dismissible fade show mb-4">
+                                <?php echo htmlspecialchars($message); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <?php endforeach; ?>
 
-                                                <div class="d-flex gap-2 justify-content-end">
-                                                    <a href="index.php" class="btn btn-light">Cancelar</a>
-                                                    <button type="submit" class="btn btn-primary">
-                                                        Cadastrar
-                                                    </button>
-                                                </div>
-                                            </form>
+                            <div class="bg-white rounded-lg shadow-md p-6">
+                                <form action="../../api/musicos.php" method="POST" class="needs-validation" novalidate>
+                                    <input type="hidden" name="cadastrarMusico" value="1">
+                                    
+                                    <div class="mb-4">
+                                        <label for="nome" class="form-label">Nome do Músico</label>
+                                        <input type="text" class="form-control" id="nome" name="nome" required>
+                                        <div class="invalid-feedback">
+                                            Por favor, insira o nome do músico.
                                         </div>
                                     </div>
-                                </div>
+
+                                    <div class="mb-4">
+                                        <label for="instrumento" class="form-label">Instrumento</label>
+                                        <input type="text" class="form-control" id="instrumento" name="instrumento" required>
+                                        <div class="invalid-feedback">
+                                            Por favor, insira o instrumento.
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="telefone" class="form-label">WhatsApp</label>
+                                        <input type="tel" 
+                                               class="form-control" 
+                                               id="telefone" 
+                                               name="telefone" 
+                                               placeholder="Ex: 5549999999999"
+                                               pattern="[0-9]{13,}"
+                                               required>
+                                        <div class="form-text text-muted">Digite o número com código do país (55) e DDD, sem espaços ou caracteres especiais</div>
+                                        <div class="invalid-feedback">
+                                            Por favor, insira um número válido com código do país e DDD.
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-check-lg me-2"></i>Cadastrar Músico
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </main>
@@ -110,5 +112,22 @@ if (isset($_SESSION['error'])) {
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Form validation
+            (function () {
+                'use strict'
+                var forms = document.querySelectorAll('.needs-validation')
+                Array.prototype.slice.call(forms)
+                    .forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            if (!form.checkValidity()) {
+                                event.preventDefault()
+                                event.stopPropagation()
+                            }
+                            form.classList.add('was-validated')
+                        }, false)
+                    })
+            })()
+        </script>
     </body>
 </html>

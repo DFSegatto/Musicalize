@@ -17,16 +17,6 @@ $musico = new Musico($db);
 // Buscar lista de músicos
 $musicos = $musico->listar();
 
-// Tratamento de mensagens
-$alertMessages = [];
-if (isset($_SESSION['success'])) {
-    $alertMessages['success'] = $_SESSION['success'];
-    unset($_SESSION['success']);
-}
-if (isset($_SESSION['error'])) {
-    $alertMessages['error'] = $_SESSION['error'];
-    unset($_SESSION['error']);
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -61,13 +51,6 @@ if (isset($_SESSION['error'])) {
                                 </div>
                                 <p class="text-muted mb-0">Preencha os dados do novo jejum</p>
                             </div>
-
-                            <?php if (isset($_SESSION['mensagem'])) { ?>
-                                <div id="mensagem" class="bg-green-100 text-green-800 p-4 rounded-lg mb-6" role="alert">
-                                    <?php echo $_SESSION['mensagem']; ?>
-                                    <?php unset($_SESSION['mensagem']); ?>
-                                </div>
-                            <?php } ?>
 
                             <div class="bg-white p-6 rounded-lg shadow-md">
                                 <form action="../../api/jejum.php" method="POST">

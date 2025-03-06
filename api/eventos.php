@@ -25,4 +25,38 @@ if (isset($_POST['cadastrarEvento'])) {
         exit;
     }
 }
+
+if (isset($_POST['editarEvento'])) {
+    try {
+        $id = $_POST['id'];
+        $titulo = $_POST['titulo'];
+        $tipo = $_POST['tipo'];
+
+        $evento->editar($id, $titulo, $tipo);
+
+        $_SESSION['success'] = "Evento atualizado com sucesso!";
+        header('Location: ../modules/eventos/gerenciar.php');
+        exit;
+    } catch (Exception $e) {
+        $_SESSION['error'] = "Erro ao atualizar evento: " . $e->getMessage();
+        header('Location: ../modules/eventos/gerenciar.php');
+        exit;
+    }
+}
+
+if (isset($_POST['excluirEvento'])) {
+    try {
+        $id = $_POST['id'];
+
+    $evento->excluir($id);
+
+    $_SESSION['success'] = "Evento excluído com sucesso!";
+    header('Location: ../modules/eventos/gerenciar.php');
+    exit;
+} catch (Exception $e) {
+        $_SESSION['error'] = "Erro ao excluir evento: " . $e->getMessage();
+        header('Location: ../modules/eventos/gerenciar.php');
+        exit;
+    }
+}
 ?>

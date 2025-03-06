@@ -30,4 +30,31 @@ class Evento {
             return $e->getMessage();
         }
     }
+
+    public function editar($id, $titulo, $tipo) {
+        try {
+            $query = "UPDATE " . $this->table_name . " SET titulo = :titulo, tipo = :tipo WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':titulo', $titulo);
+            $stmt->bindParam(':tipo', $tipo);
+            $stmt->execute();
+            return $stmt;
+        } catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function excluir($id) {
+        try {
+            $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return $stmt;
+        } catch(PDOException $e) {
+            return $e->getMessage();
+        }
+    }
 }
+?>

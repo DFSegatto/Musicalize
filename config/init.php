@@ -14,7 +14,7 @@ $base_path = '';
 
 // Detecta se está em ambiente de desenvolvimento
 if ($_SERVER['SERVER_NAME'] === 'localhost' || $_SERVER['SERVER_NAME'] === '127.0.0.1') {
-    $base_path = '/aplicativomanancial';
+    $base_path = '/Musicalize';
 }
 
 define('BASE_PATH', $base_path);
@@ -25,11 +25,11 @@ function url($path = '') {
 }
 
 // Constantes da aplicação
-define('APP_URL', 'http://localhost/aplicativoManancial'); // Ajuste conforme seu ambiente
+define('APP_URL', 'http://localhost/Musicalize'); // Ajuste conforme seu ambiente
 
 // Configurações do banco de dados
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'manancial');
+define('DB_NAME', 'musicalize');
 define('DB_USER', 'root');
 define('DB_PASS', 'root');
 

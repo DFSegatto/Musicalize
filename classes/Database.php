@@ -1,7 +1,7 @@
 <?php
 class Database {
     private $host = 'localhost';
-    private $db_name = 'manancial';
+    private $db_name = 'musicalize';
     private $username = 'root';
     private $password = 'root';
     private $conn;

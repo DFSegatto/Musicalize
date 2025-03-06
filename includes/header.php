@@ -5,7 +5,7 @@
             <span class="material-symbols-outlined">menu</span>
         </button>
         <h1 class="text-2xl font-bold">
-            <a href="<?php echo url('/index.php'); ?>">Manancial</a>
+            <a href="<?php echo url('/index.php'); ?>">Musicalize</a>
         </h1>
     </div>
 </header>

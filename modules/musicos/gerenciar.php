@@ -92,7 +92,7 @@ $musicos = $musico->listar($apenasAtivos);
                                                                 </button>
                                                             <?php endif; ?>
                                                             
-                                                            <button onclick="editarMusico(<?php echo $row['id']; ?>, '<?php echo $row['nome']; ?>', '<?php echo $row['instrumento']; ?>')" 
+                                                            <button onclick="editarMusico(<?php echo $row['id']; ?>, '<?php echo $row['nome']; ?>', '<?php echo $row['instrumento']; ?>', '<?php echo $row['telefone']; ?>')" 
                                                                     class="btn btn-light btn-sm"
                                                                     title="Editar">
                                                                 <span class="material-symbols-outlined">edit</span>
@@ -202,10 +202,11 @@ $musicos = $musico->listar($apenasAtivos);
                 editModal = new bootstrap.Modal(document.getElementById('editarMusicoModal'));
             });
 
-            function editarMusico(id, nome, instrumento) {
+            function editarMusico(id, nome, instrumento, telefone) {
                 document.getElementById('editMusicoId').value = id;
                 document.getElementById('editNome').value = nome;
                 document.getElementById('editInstrumento').value = instrumento;
+                document.getElementById('editTelefone').value = telefone;
                 editModal.show();
             }
 
@@ -213,8 +214,9 @@ $musicos = $musico->listar($apenasAtivos);
                 const id = document.getElementById('editMusicoId').value;
                 const nome = document.getElementById('editNome').value;
                 const instrumento = document.getElementById('editInstrumento').value;
+                const telefone = document.getElementById('editTelefone').value;
 
-                if (!nome || !instrumento) {
+                if (!nome || !instrumento || !telefone) {
                     alert('Por favor, preencha todos os campos');
                     return;
                 }
@@ -223,6 +225,7 @@ $musicos = $musico->listar($apenasAtivos);
                 formData.append('id', id);
                 formData.append('nome', nome);
                 formData.append('instrumento', instrumento);
+                formData.append('telefone', telefone);
                 formData.append('acao', 'editarMusico');
 
                 fetch('../../api/musicos.php', {

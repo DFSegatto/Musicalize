@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     else {
         try {
-            if (!isset($_POST['nome']) || !isset($_POST['instrumento'])) {
+            if (!isset($_POST['nome']) || !isset($_POST['instrumento']) || !isset($_POST['telefone'])) {
                 throw new Exception('Dados incompletos para cadastro');
             }
 
@@ -91,3 +91,5 @@ else {
     echo json_encode(['error' => 'Método não permitido']);
     exit;
 }
+
+?>

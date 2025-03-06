@@ -612,6 +612,29 @@ if(isset($tracks['items'][0]['track']['id'])){
                 alert('Error playing playlist. Make sure you have Spotify Premium and try again.');
             }
         }
+        
+        function buscarIdLink() {
+            const linkPlaylist = document.getElementById('linkPlaylist').value.trim();
+            const partes = linkPlaylist.split('/playlist/')[1];
+            const id = partes.split('?')[0];
+            return id;
+        }
+
+        const playlistId = buscarIdLink();
+
+        function buscarPlaylist() {
+            const playlistId = buscarIdLink();
+            
+            if (!playlistId) {
+                alert('Por favor, insira o link da playlist');
+                return;
+            }
+
+            // Remove qualquer parte da URL que não seja o ID
+            const cleanId = playlistId.split('?')[0].split('/').pop();
+            
+            window.location.href = window.location.pathname + '?playlistId=' + cleanId;
+        }
     </script>
 </head>
 <body>
@@ -771,19 +794,21 @@ if(isset($tracks['items'][0]['track']['id'])){
                     <div class="card-body p-4">
                         <h4 class="text-center mb-4">Buscar Playlist do Spotify</h4>
                         <div class="mb-4">
-                            <label class="form-label text-muted">Como encontrar o ID da playlist:</label>
+                            <label class="form-label text-muted">Informe o link da playlist</label>
                             <div class="bg-light p-3 rounded mb-3">
                                 <p class="mb-2">1. Abra a playlist no Spotify</p>
-                                <p class="mb-2">2. Na URL: <code>https://open.spotify.com/playlist/<strong>1buSJB6XrEQyaGuoaVi0LD</strong>?si=...</code></p>
-                                <p class="mb-0">3. O texto em negrito é o ID da playlist</p>
+                                <p class="mb-2">2. Clique com o botão direito do mouse na playlist</p>
+                                <p class="mb-0">3. Clique em 'Compartilhar'</p>
+                                <p class="mb-0">4. Clique em 'Copiar link da playlist'</p>
+                                <p class="mb-0">5. Cole o link na caixa de texto abaixo</p>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="playlistId" class="form-label">ID da Playlist</label>
+                            <label for="linkPlaylist" class="form-label">Link da Playlist</label>
                             <input type="text" 
                                    class="form-control" 
-                                   id="playlistId" 
-                                   placeholder="Ex: 1buSJB6XrEQyaGuoaVi0LD"
+                                   id="linkPlaylist" 
+                                   placeholder="Ex: https://open.spotify.com/playlist/1buSJB6XrEQyaGuoaVi0LD"
                                    required>
                         </div>
                         <button class="btn btn-primary w-100" onclick="buscarPlaylist()">
@@ -822,22 +847,6 @@ if(isset($tracks['items'][0]['track']['id'])){
             </div>
         </div>
     </div>
-
-    <script>
-        function buscarPlaylist() {
-            const playlistId = document.getElementById('playlistId').value.trim();
-            
-            if (!playlistId) {
-                alert('Por favor, insira o ID da playlist');
-                return;
-            }
-
-            // Remove qualquer parte da URL que não seja o ID
-            const cleanId = playlistId.split('?')[0].split('/').pop();
-            
-            window.location.href = window.location.pathname + '?playlistId=' + cleanId;
-        }
-    </script>
 <?php endif; ?>
 </body>
 </html>

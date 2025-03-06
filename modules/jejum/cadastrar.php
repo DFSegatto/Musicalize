@@ -13,7 +13,11 @@ $musico = new Musico($db);
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Manancial - Sistema de Gerenciamento de Escalas</title>
+        <title>Musicalize - Cadastrar Jejum</title>
+        <link rel="icon" type="image/x-icon" href="assets/css/img/favicon.ico">
+        <meta name="description" content="Musicalize é um sistema de gerenciamento de escalas de músicos.">
+        <meta name="author" content="Web FS">
+        <meta name="keywords" content="escalas, músicos, música, gerenciamento">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">

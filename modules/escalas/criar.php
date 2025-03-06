@@ -52,7 +52,11 @@ if (isset($_SESSION['error'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistema de criação de escalas musicais">
     <meta name="author" content="Manancial">
-    <title>Manancial - Escalas</title>
+    <title>Musicalize - Escalas</title>
+    <link rel="icon" type="image/x-icon" href="assets/css/img/favicon.ico">
+    <meta name="description" content="Musicalize é um sistema de gerenciamento de escalas de músicos.">
+    <meta name="author" content="Web FS">
+    <meta name="keywords" content="escalas, músicos, música, gerenciamento">
 
     <!-- CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">

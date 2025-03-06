@@ -12,7 +12,7 @@ $musicos = $musico->listar($apenasAtivos);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <title>Musicalize - Gerenciar Músicos</title>
         <link rel="icon" type="image/x-icon" href="../../assets/css/img/favicon.ico">

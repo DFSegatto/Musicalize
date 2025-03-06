@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <title>Musicalize - Eventos</title>
         <link rel="icon" type="image/x-icon" href="../../assets/css/img/favicon.ico">

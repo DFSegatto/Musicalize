@@ -9,7 +9,7 @@ $notificador = new WhatsAppNotificacao();
 $links = $notificador->gerarLinksJejum();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <title>Musicalize - Enviar Mensagens de Jejum</title>
         <link rel="icon" type="image/x-icon" href="../../assets/css/img/favicon.ico">

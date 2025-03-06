@@ -24,7 +24,7 @@ if (isset($_SESSION['error'])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <title>Musicalize - Cadastrar Músico</title>
         <link rel="icon" type="image/x-icon" href="../../assets/css/img/favicon.ico">

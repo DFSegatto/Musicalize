@@ -61,7 +61,7 @@ if(isset($tracks['items'][0]['track']['id'])){
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -27,7 +27,7 @@ if (isset($_SESSION['error'])) {
 <html>
     <head>
         <title>Musicalize - Cadastrar Músico</title>
-        <link rel="icon" type="image/x-icon" href="assets/css/img/favicon.ico">
+        <link rel="icon" type="image/x-icon" href="../../assets/css/img/favicon.ico">
         <meta name="description" content="Musicalize é um sistema de gerenciamento de escalas de músicos.">
         <meta name="author" content="Web FS">
         <meta name="keywords" content="escalas, músicos, música, gerenciamento">

@@ -2,6 +2,7 @@
 require_once '../../api/musicas.php';
 require_once '../../classes/Musica.php';
 require_once '../../classes/Database.php';
+require_once '../../classes/Playlist.php';
 
 $db = new Database();
 $db = $db->getConnection();
@@ -15,10 +16,25 @@ if (!$spotify->getAccessToken()) {
     exit;
 }
 
-$playlistId = '3O3u2QvM75QoZAvDO34G9E';
+$playlistId = $_GET['playlistId'] ?? null;
 $playlist = $spotify->getPlaylist($playlistId);
 $tracks = $spotify->getPlaylistTracks($playlistId);
 
+$playlistObj = new Playlist($db);
+
+if(isset($playlistId) && $playlist) {
+    // Salva a playlist no histórico
+    $playlistObj->salvar([
+        'playlist_id' => $playlistId,
+        'nome' => $playlist['name'],
+        'descricao' => $playlist['description'],
+        'imagem_url' => $playlist['images'][0]['url'],
+        'total_musicas' => count($playlist['tracks']['items'])
+    ]);
+}
+
+// Busca as playlists já acessadas
+$playlistsAcessadas = $playlistObj->listar();
 
 if(isset($tracks['items'][0]['track']['id'])){
     $musica = new Musica($db);
@@ -58,6 +74,8 @@ if(isset($tracks['items'][0]['track']['id'])){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="../../assets/css/style.css">
     
     <style>
         body {
@@ -85,32 +103,35 @@ if(isset($tracks['items'][0]['track']['id'])){
         }
 
         .track-number {
-            color:rgb(255, 255, 255);
+            color:rgba(255, 255, 255, 0.7);
             width: 50px;
             text-align: center;
         }
 
         .track-name {
-            color: #fff;
+            color: white;
             margin: 0;
-            font-size: 16px;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
 
         .track-artists {
-            color:rgb(233, 227, 227);
+            color:rgba(255, 255, 255, 0.7);
             margin: 0;
-            font-size: 14px;
+            font-size: 0.85rem;
         }
 
         .track-duration {
-            color:rgb(255, 255, 255);
-            font-size: 14px;
+            color:rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
             text-align: right;
         }
 
         .header {
-            color: #b3b3b3;
-            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             border-bottom: 1px solid #282828;
             padding: 8px 0;
             margin-bottom: 16px;
@@ -150,7 +171,14 @@ if(isset($tracks['items'][0]['track']['id'])){
             color: white;
         }
 
+        .playlist-info p.mb-0 {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+        }
+
         .playlist-info h1 {
+            color: white;
             font-size: 3rem;
             font-weight: bold;
             margin: 20px 0 10px;
@@ -182,7 +210,7 @@ if(isset($tracks['items'][0]['track']['id'])){
         }
 
         .progress {
-            background-color:rgb(255, 255, 255);
+            background-color:rgba(255, 255, 255, 0.7);
             height: 4px;
             transition: height 0.2s ease;
         }
@@ -209,12 +237,19 @@ if(isset($tracks['items'][0]['track']['id'])){
         }
 
         #current-track-name {
+            color: white;
             font-size: 0.9rem;
             font-weight: 500;
         }
 
         #current-track-artist {
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
+        }
+
+        #current-time, #total-time {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.75rem;
         }
 
         /* Ajuste para o conteúdo principal não ficar escondido atrás do player */
@@ -265,6 +300,30 @@ if(isset($tracks['items'][0]['track']['id'])){
             .playlist-header .col-md-9 {
                 width: 100%;
             }
+        }
+
+        /* Ajustes dos textos da busca */
+        .card-body h4 {
+            color: #02416d;
+        }
+
+        .form-label {
+            color: #666;
+        }
+
+        .text-muted {
+            color: #666 !important;
+        }
+
+        .bg-light p {
+            color: #444;
+        }
+
+        code {
+            color: #02416d;
+            background-color: rgba(2, 65, 109, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
         }
     </style>
 
@@ -556,12 +615,22 @@ if(isset($tracks['items'][0]['track']['id'])){
     </script>
 </head>
 <body>
+    <?php
+    if(isset($playlistId) && $playlistId !== null): ?>
+
     <!-- Cabeçalho da Playlist -->
     <div class="playlist-header">
         <div class="container">
+            <!-- Adicionar botão voltar -->
+            <div class="mb-4">
+                <a href="index.php" class="btn btn-link text-white p-0">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </a>
+            </div>
+            <!-- Resto do conteúdo -->
             <div class="row align-items-end">
                 <div class="col-md-3">
-                <img src="<?php echo $playlist['images'][0]['url']; ?>" alt="Playlist Cover" class="playlist-image">
+                    <img src="<?php echo $playlist['images'][0]['url']; ?>" alt="Playlist Cover" class="playlist-image">
                 </div>
                 <div class="col-md-9 playlist-info">
                     <p class="mb-0">PLAYLIST</p>
@@ -685,5 +754,90 @@ if(isset($tracks['items'][0]['track']['id'])){
             </div>
         </div>
     </div>
+<?php else: ?>
+    <!-- Interface para solicitar ID da playlist -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="mb-3 mb-md-0">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <a href="../../index.php" class="btn btn-link text-white p-0">
+                            <span class="material-symbols-outlined">arrow_back</span>
+                        </a>
+                        <h1 class="h3 fw-bold mb-0">Buscar Playlist</h1>
+                    </div>
+                </div>
+                <div class="card border-0 shadow mb-4">
+                    <div class="card-body p-4">
+                        <h4 class="text-center mb-4">Buscar Playlist do Spotify</h4>
+                        <div class="mb-4">
+                            <label class="form-label text-muted">Como encontrar o ID da playlist:</label>
+                            <div class="bg-light p-3 rounded mb-3">
+                                <p class="mb-2">1. Abra a playlist no Spotify</p>
+                                <p class="mb-2">2. Na URL: <code>https://open.spotify.com/playlist/<strong>1buSJB6XrEQyaGuoaVi0LD</strong>?si=...</code></p>
+                                <p class="mb-0">3. O texto em negrito é o ID da playlist</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="playlistId" class="form-label">ID da Playlist</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="playlistId" 
+                                   placeholder="Ex: 1buSJB6XrEQyaGuoaVi0LD"
+                                   required>
+                        </div>
+                        <button class="btn btn-primary w-100" onclick="buscarPlaylist()">
+                            <i class="fas fa-search me-2"></i>Buscar Playlist
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lista de Playlists Acessadas -->
+                <?php if($playlistsAcessadas && !empty($playlistsAcessadas)): ?>
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4">
+                        <h5 class="mb-4">Playlists Recentes</h5>
+                        <div class="list-group">
+                            <?php foreach($playlistsAcessadas as $playlist): ?>
+                                <a href="?playlistId=<?php echo $playlist['playlist_id']; ?>" 
+                                   class="list-group-item list-group-item-action d-flex align-items-center gap-3">
+                                    <img src="<?php echo $playlist['imagem_url']; ?>" 
+                                         alt="<?php echo htmlspecialchars($playlist['nome']); ?>" 
+                                         width="48" 
+                                         height="48" 
+                                         class="rounded">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0"><?php echo htmlspecialchars($playlist['nome']); ?></h6>
+                                        <small class="text-muted">
+                                            <?php echo $playlist['total_musicas']; ?> músicas
+                                        </small>
+                                    </div>
+                                    <i class="fas fa-chevron-right text-muted"></i>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function buscarPlaylist() {
+            const playlistId = document.getElementById('playlistId').value.trim();
+            
+            if (!playlistId) {
+                alert('Por favor, insira o ID da playlist');
+                return;
+            }
+
+            // Remove qualquer parte da URL que não seja o ID
+            const cleanId = playlistId.split('?')[0].split('/').pop();
+            
+            window.location.href = window.location.pathname + '?playlistId=' + cleanId;
+        }
+    </script>
+<?php endif; ?>
 </body>
 </html>

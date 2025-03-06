@@ -45,7 +45,6 @@ aplicativomanancial/
 │   └── musicas/
 │       ├── index.php
 │
-
 │
 │
 ├── index.php

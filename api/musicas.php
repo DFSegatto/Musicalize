@@ -1,7 +1,7 @@
 <?php
 class SpotifyAPI {
-    private $clientId = 'f96fadea181e452b9f4cc433405a46cb';
-    private $clientSecret = 'de371cd0099f44539d86b783f717cf5a';
+    private $clientId = null;
+    private $clientSecret = null;
     private $redirectUri = 'http://localhost/Musicalize/api/callback.php'; // URL de callback
     private $accessToken;
     private $scopes = [

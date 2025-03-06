@@ -1,20 +1,25 @@
-projeto_musicos/
+aplicativomanancial/
+├── api/
+│   ├── callback.php
+│   ├── escalas.php
+│   ├── eventos.php
+│   ├── jejum.php
+│   ├── musicas.php
+│   ├── musicos.php
+│   └── whatsapp_notificacao.php
+│
+│
 ├── assets/
 │   ├── css/
-│   │   ├── style.css
-│   │   └── vendor/          # CSS de terceiros
-│   ├── js/
-│   │   ├── main.js
-│   │   └── vendor/          # JavaScript de terceiros
-│   └── images/
+│       ├── style.css
+│       └── img/                
+│   
 │
 ├── config/
-│   ├── database.php         # Configuração do MySQL
-│   └── config.php          # Configurações gerais
+│   ├── init.php         
 │
 ├── includes/
 │   ├── header.php
-│   ├── footer.php
 │   └── navbar.php
 │
 ├── classes/
@@ -28,36 +33,20 @@ projeto_musicos/
 │   ├── musicos/
 │   │   ├── index.php
 │   │   ├── cadastrar.php
-│   │   ├── editar.php
-│   │   └── excluir.php
+│   │   └── gerenciar.php
 │   ├── eventos/
 │   │   ├── index.php
 │   │   ├── cadastrar.php
-│   │   └── editar.php
+│   │   └── gerenciar.php
 │   ├── escalas/
 │   │   ├── index.php
 │   │   ├── criar.php
 │   │   └── gerenciar.php
 │   └── musicas/
 │       ├── index.php
-│       ├── cadastrar.php
-│       └── repertorio.php
 │
-├── api/
-│   ├── musicos.php
-│   ├── eventos.php
-│   └── escalas.php
+
 │
-├── utils/
-│   ├── functions.php
-│   └── helpers.php
-│
-├── vendor/                  # Dependências (se usar Composer)
-│
-├── uploads/                 # Arquivos enviados (partituras, etc)
-│   ├── partituras/
-│   └── fotos/
 │
 ├── index.php
-├── .htaccess
 └── README.md

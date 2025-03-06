@@ -52,7 +52,6 @@ function handleError($errno, $errstr, $errfile, $errline) {
 }
 set_error_handler('handleError');
 
-// Autoloader para classes (opcional, se você não estiver usando Composer)
 spl_autoload_register(function ($class) {
     $file = BASE_PATH . '/classes/' . $class . '.php';
     if (file_exists($file)) {

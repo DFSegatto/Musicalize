@@ -6,7 +6,6 @@ if (isset($_GET['code'])) {
     $result = $spotify->getAccessTokenWithScopes($_GET['code']);
     
     if (isset($result['access_token'])) {
-        // Redireciona de volta para a página principal
         header('Location: /aplicativoManancial/modules/musicas/index.php');
         exit;
     } else {

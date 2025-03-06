@@ -256,7 +256,6 @@ if (isset($_SESSION['error'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
     
-    <!-- Manter o script JavaScript existente aqui -->
     <script>
     // Namespace principal
     const EscalaManager = {
@@ -720,12 +719,10 @@ if (isset($_SESSION['error'])) {
         }
     });
 
-    // Add these new functions
     function removerMusico(id) {
         musicosSelecionados = musicosSelecionados.filter(m => m.id !== id);
         atualizarFormularioMusicos();
         
-        // Uncheck the checkbox in the modal if it's open
         const checkbox = document.querySelector(`#musico${id}`);
         if (checkbox) checkbox.checked = false;
     }
@@ -734,7 +731,6 @@ if (isset($_SESSION['error'])) {
         musicasSelecionadas = musicasSelecionadas.filter(m => m.id !== id);
         atualizarFormularioMusicas();
         
-        // Uncheck the checkbox in the modal if it's open
         const checkbox = document.querySelector(`#musica${id}`);
         if (checkbox) checkbox.checked = false;
     }

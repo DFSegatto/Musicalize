@@ -1,3 +1,28 @@
+<?php
+// Inicialização e configuração
+define('REQUIRED_ROLES', ['admin']);
+
+// Inclusões necessárias
+require_once '../../config/init.php';
+require_once '../../classes/Evento.php';
+require_once '../../classes/Database.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$evento = new Evento($db);
+
+// Tratamento de mensagens
+$alertMessages = [];
+if (isset($_SESSION['success'])) {
+    $alertMessages['success'] = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $alertMessages['error'] = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,25 +57,13 @@
                                 <p class="text-gray-600 mb-0">Preencha os dados do novo evento</p>
                             </div>
 
-                            <?php if (isset($_SESSION['success'])): ?>
-                                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                                    <?php 
-                                        echo $_SESSION['success'];
-                                        unset($_SESSION['success']);
-                                    ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                            <?php endif; ?>
-
-                            <?php if (isset($_SESSION['error'])): ?>
-                                <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
-                                    <?php 
-                                        echo $_SESSION['error'];
-                                        unset($_SESSION['error']);
-                                    ?>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                </div>
-                            <?php endif; ?>
+                        <!-- Alertas -->
+                        <?php foreach ($alertMessages as $type => $message): ?>
+                            <div class="alert alert-<?php echo $type === 'error' ? 'danger' : $type; ?> alert-dismissible fade show mb-4">
+                                <?php echo htmlspecialchars($message); ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        <?php endforeach; ?>
 
                             <div class="bg-white rounded-lg shadow-md p-6">
                                 <form action="../../api/eventos.php" method="POST" class="needs-validation" novalidate>

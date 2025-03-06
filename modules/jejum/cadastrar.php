@@ -1,14 +1,32 @@
 <?php
-include_once '../../classes/Database.php';
-include_once '../../classes/Jejum.php';
-include_once '../../classes/Musico.php';
+// Inicialização e configuração
+define('REQUIRED_ROLES', ['admin']);
 
+// Inclusões necessárias
+require_once '../../config/init.php';
+require_once '../../classes/Jejum.php';
+require_once '../../classes/Database.php';
+require_once '../../classes/Musico.php';
 
-$db = new Database();
-$db = $db->getConnection();
+$database = new Database();
+$db = $database->getConnection();
 
 $jejum = new Jejum($db);
 $musico = new Musico($db);
+
+// Buscar lista de músicos
+$musicos = $musico->listar();
+
+// Tratamento de mensagens
+$alertMessages = [];
+if (isset($_SESSION['success'])) {
+    $alertMessages['success'] = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $alertMessages['error'] = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,7 +80,8 @@ $musico = new Musico($db);
                                                 </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                                <?php foreach ($musico->listar() as $m) { ?>
+                                                <?php 
+                                                foreach ($musicos->fetchAll(PDO::FETCH_ASSOC) as $m) { ?>
                                                 <tr class="hover:bg-gray-50">
                                                     <td class="px-6 py-4 whitespace-nowrap"><?php echo $m['nome']; ?></td>
                                                     <td class="px-6 py-4 whitespace-nowrap">

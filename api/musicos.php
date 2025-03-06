@@ -22,9 +22,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($acao === 'inativar') {
                 $musico->inativar($id);
+                $_SESSION['success'] = 'Músico inativado com sucesso!';
                 echo json_encode(['success' => 'Músico inativado com sucesso!']);
             } else if ($acao === 'ativar') {
                 $musico->ativar($id);
+                $_SESSION['success'] = 'Músico ativado com sucesso!';
                 echo json_encode(['success' => 'Músico ativado com sucesso!']);
             } else if ($acao === 'editarMusico') {
                 $telefone = isset($_POST['telefone']) ? trim($_POST['telefone']) : null;
@@ -35,12 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 
                 $musico->editar($id, $_POST['nome'], $_POST['instrumento'], $telefone);
+                $_SESSION['success'] = 'Músico editado com sucesso!';
                 echo json_encode(['success' => 'Músico editado com sucesso!']);
             } else {
                 throw new Exception('Ação inválida');
             }
         } catch(Exception $e) {
             http_response_code(400);
+            $_SESSION['error'] = 'Erro ao realizar ação: ' . $e->getMessage();
             echo json_encode(['error' => $e->getMessage()]);
             exit;
         }
@@ -59,11 +63,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $musico->cadastrar($_POST['nome'], $_POST['instrumento'], $telefone);
+            $_SESSION['success'] = 'Músico cadastrado com sucesso!';
             header('Location: ../modules/musicos/cadastrar.php');
             exit;
         } catch(Exception $e) {
             http_response_code(400);
-            echo json_encode(['error' => $e->getMessage()]);
+            $_SESSION['error'] = 'Erro ao cadastrar músico: ' . $e->getMessage();
+            header('Location: ../modules/musicos/cadastrar.php');
             exit;
         }
     }

@@ -17,11 +17,11 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             $jejum->cadastrar($musico_id, $dia);
         }
         
-        $_SESSION['mensagem'] = 'Jejum cadastrados com sucesso!';
+        $_SESSION['success'] = 'Jejum cadastrados com sucesso!';
         header('Location: ../modules/jejum/gerenciar.php');
         exit;
     } catch (PDOException $e) {
-        $_SESSION['mensagem'] = 'Erro ao cadastrar: ' . $e->getMessage();
+        $_SESSION['error'] = 'Erro ao cadastrar: ' . $e->getMessage();
         header('Location: ../modules/jejum/cadastrar.php');
         exit;
     }

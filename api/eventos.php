@@ -9,20 +9,20 @@ $db = new Database();
 $db = $db->getConnection();
 $evento = new Evento($db);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if (isset($_POST['cadastrarEvento'])) {
     try {
         $titulo = $_POST['titulo'];
         $tipo = $_POST['tipo'];
 
         $evento->cadastrar($titulo, $tipo);
 
-        echo json_encode(['success' => 'Evento cadastrado com sucesso!']);
-        $_SESSION['mensagem'] = 'Evento cadastrado com sucesso!';
+        $_SESSION['success'] = "Evento cadastrado com sucesso!";
         header('Location: ../modules/eventos/cadastrar.php');
+        exit;
     } catch (Exception $e) {
-        echo json_encode(['error' => $e->getMessage()]);
-        $_SESSION['mensagem'] = 'Erro ao cadastrar evento!';
+        $_SESSION['error'] = "Erro ao cadastrar evento: " . $e->getMessage();
         header('Location: ../modules/eventos/cadastrar.php');
+        exit;
     }
 }
 ?>

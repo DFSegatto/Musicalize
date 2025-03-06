@@ -1,3 +1,28 @@
+<?php
+// Inicialização e configuração
+define('REQUIRED_ROLES', ['admin']);
+
+// Inclusões necessárias
+require_once '../../config/init.php';
+require_once '../../classes/Musico.php';
+require_once '../../classes/Database.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$musico = new Musico($db);
+
+// Tratamento de mensagens
+$alertMessages = [];
+if (isset($_SESSION['success'])) {
+    $alertMessages['success'] = $_SESSION['success'];
+    unset($_SESSION['success']);
+}
+if (isset($_SESSION['error'])) {
+    $alertMessages['error'] = $_SESSION['error'];
+    unset($_SESSION['error']);
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>

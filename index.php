@@ -9,7 +9,7 @@
     $escalas = $escalasObj->listar();
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
         <title>Musicalize</title>
         <link rel="icon" type="image/x-icon" href="assets/css/img/favicon.ico">
